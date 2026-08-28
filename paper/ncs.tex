@@ -35,7 +35,24 @@ fingerprint of multi-physics operation}
 \maketitle
 
 \begin{abstract}
-Industrial telemetry lives on a coupled trajectory whose relations carry information no single channel contains. We construct a nine-descriptor atlas of those relations. Eight descriptors are computed on within-record ranks, making the atlas exactly invariant to any independent monotone recalibration of each channel, verified to machine precision on real data. The ninth, the signed L\'evy area, is the unique descriptor odd under time reversal and captures causal lag no symmetric statistic can reach. On seven real industrial systems (309 records), the atlas identifies the source system at $99.4\%$ accuracy versus $96.1\%$ for per-channel marginals. Under simulated re-instrumentation the atlas holds at $99.0\%$ while marginals collapse to $80.3\%$. In controlled simulated fleets of 48 machines on three robotic platforms, an autoencoder trained on raw telemetry outperforms the atlas on clean data but collapses to chance under re-instrumentation, while the atlas is numerically unchanged. The method requires $\sim10^3$ samples per window. Its value is in identification, auditing and transfer under changing instrumentation, not in prediction.
+A machine under load moves along a coupled trajectory whose geometry carries
+information no single channel contains. This paper constructs a
+nine-descriptor atlas of that geometry and proves two properties. First,
+eight descriptors are computed on within-record ranks, making the atlas
+exactly invariant to any independent monotone recalibration of each
+channel, verified to machine precision on real data. Second, the ninth
+descriptor, the signed L\'evy area, is the unique atom odd under time
+reversal, establishing a parity decomposition: eight even atoms capture
+symmetric dependence, one odd atom captures causal lag inaccessible to
+correlation or mutual information. On seven real industrial systems (309
+records), the atlas identifies the source at $99.4\%$ versus $96.1\%$ for
+marginals, and under simulated re-instrumentation holds at $99.0\%$ while
+marginals collapse to $80.3\%$. In controlled fleets of 48 machines on
+three platforms, an autoencoder outperforms the atlas on clean data but
+collapses to chance under re-instrumentation, while the atlas is unchanged.
+The method requires $\sim10^3$ samples per window and provides a
+deployment rule: relational atoms for coupling-shifting faults, per-channel
+statistics for level-shifting faults.
 \end{abstract}
 
 \section{Introduction}
