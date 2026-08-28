@@ -1,87 +1,89 @@
-# IOO Manifold
+# The Shapes a Machine Draws
 
-A fresh, reproducible implementation of the Index of Operations (IOO) and Index of Operators idea.
+**Recalibration-invariant relational atoms of multi-physics operation for industrial telemetry**
 
-The central object is a typed, hierarchical representation of machine telemetry. A machine is represented as local operator subsystems connected through physical interfaces, while the state of each subsystem is represented by its trajectory through a learned low-dimensional chart. The system does not mistake a 3D projection for the full manifold. The graph and trajectory remain the model input; the projection is only for inspection.
+> Every pair of a machine's channels traces a shape as it runs. Nine scalar descriptors of those shapes separate kinds of machine, diagnose real faults, and do not move at all when the instrumentation is changed.
 
-## Research claim
+[Paper (22 pages, NCS format)](https://sehajr-singhs.github.io/operating-atlas/manuscript_NCS.pdf) · [Interactive site](https://sehajr-singhs.github.io/operating-atlas/) · [Kaggle kernels](https://www.kaggle.com/sehajrsingh) · [HF Space](https://huggingface.co/spaces/Sejibeji/operating-atlas)
 
-This repository tests a narrow claim rather than assuming a universal physical-AI breakthrough:
+## Results at a glance
 
-> A relational, hierarchical representation of coupled machine operation can preserve useful operating structure under sensor recalibration and can improve transfer across operating regimes or component substitutions, while retaining enough physical information for forecasting and fault diagnosis.
+| Claim | Result |
+|---|---|
+| 7 real systems, 309 records | **99.4%** identification (CI [97.7, 100.0]) |
+| Under re-instrumentation | Atlas **99.0%** vs marginals 80.3% |
+| Fleet control (3 platforms × 3 types) | Atlas at chance on level, significant on shape |
+| AE baseline | Wins clean (58.3%), collapses to 2.1% under warp |
+| Lévy area (time reversal) | Odd atom to 4.7×10⁻¹⁴; 32.5% vs 7.5% Spearman |
 
-The experiments include negative controls. Physical topology, statistical coupling, and learned coupling are stored separately. Correlation is never labeled as causation.
-
-## Fresh implementation
-
-The implementation is self-contained under `src/` and does not import code from the other projects in the parent Downloads folder.
-
-- `src/ioo_core.py`: operator catalogue, port schemas, interface constraints, typed graph construction, dynamic couplings, and trajectory projections.
-- `src/ioo_experiment.py`: reproducible synthetic modular machine benchmark with motor, gearbox, actuator, and thermal subsystems, plus component substitution and recalibration tests.
-- `src/run_experiment.py`: command-line runner that writes machine-readable results and figures.
-- `paper/ioo_v3.tex`: manuscript in the Writing Style Guide v3 register.
-- `paper/supplementary_methods.tex`: supplementary methods and reproducibility details.
-- `notebooks/ioo_colab.md`: Google Colab workflow.
-- `cloud/kaggle_kernel.py`: self-contained Kaggle kernel generator.
-- `cloud/modal_app.py`: optional Modal fan-out launcher.
-- `cloud/huggingface_upload.py`: optional artifact publication helper.
-
-## Local run
+## Quick start
 
 ```bash
-python -m src.run_experiment --output results/local --seeds 0 1 2 3 4
+git clone https://github.com/sehajr-singhs/operating-atlas
+cd operating-atlas
+pip install -r requirements.txt
+
+# Compute atoms from a motor session
+python -m atlas.atoms --input data/robot_ur5e.npz
+
+# Build the findings page
+python atlas/build_page.py
 ```
 
-The default run uses only NumPy, SciPy, pandas, scikit-learn, and matplotlib. It produces:
+## Repository structure
 
-- `metrics.json`
-- `metrics.csv`
-- `config.json`
-- `figure_manifold.png`
-- `figure_transfer.png`
-- `figure_ablation.png`
-
-A smoke run is available:
-
-```bash
-python -m src.run_experiment --output results/smoke --seeds 0 --episodes 12 --steps 300
+```
+atlas/
+  atoms.py          # Core atom computation (9 atoms per channel pair)
+  real_systems.py   # Loaders for 7 real industrial systems
+  bench_real.py     # 7-system benchmark + fault diagnosis
+  figs_real.py      # Real-systems figure generation
+  build_page.py     # Static findings page generator
+  app.py            # Gradio interactive demo (HF Space)
+paper/
+  ncs.tex           # Manuscript source (22 pages, 44 references)
+  ncs.pdf           # Compiled PDF
+kaggle_kernel/
+  ioo-shape-level/     # UR5e fleet experiment
+  ioo-shape-level-panda/  # Panda fleet experiment
+  ioo-shape-level-iiwa14/  # iiwa14 fleet experiment
+  ioo-real2/           # 7-system benchmark
+  ioo-deep-baselines/  # AE/LSTM/transformer comparison
+  ioo-patchtst/        # PatchTST baseline
 ```
 
-## Kaggle
+## The nine atoms
 
-The Kaggle connector generates a self-contained script. It does not print or embed credentials.
+| # | Atom | Type | What it measures |
+|---|---|---|---|
+| 1 | Spearman ρ | Even, rank | Monotone association |
+| 2 | Distance correlation | Even, rank | Any dependence |
+| 3 | Hoeffding D | Even, rank | Nonlinearity gap |
+| 4 | Copula asymmetry | Even, rank | Tail dependence asymmetry |
+| 5 | **Signed Lévy area** | **Odd, time** | **Arrow of time** |
+| 6 | Jump share | Even, rank | Discontinuity |
+| 7 | Timescale ratio | Even, rank | Frequency distribution |
+| 8 | Support occupancy | Even, rank | Filling of rank-plane |
+| 9 | Scaling exponent | Even, rank | Hurst-like persistence |
 
-```bash
-python -m cloud.kaggle_kernel --output cloud/kaggle_submission
-# Upload cloud/kaggle_submission/kernel-metadata.json and main.py through Kaggle,
-# or use the Kaggle CLI after reviewing the generated files.
+## Reproducibility
+
+All figures and tables are reproducible from the released code. The benchmark runs end-to-end as Kaggle notebooks (GPU-free for the fleet experiments, GPU for deep baselines).
+
+## Author
+
+**Sehaj Randhir Singh** — Department of Electrical and Computer Engineering, NYU Tandon School of Engineering; Independent Researcher
+
+## License
+
+Code is released for reproducibility. Please cite the paper if you use this work.
+
+## Citation
+
+```bibtex
+@article{singh2026shapes,
+  title={The shapes a machine draws: a recalibration-invariant relational fingerprint of multi-physics operation},
+  author={Singh, Sehaj Randhir},
+  year={2026}
+}
 ```
-
-The kernel writes its results to `/kaggle/working/ioo_results`.
-
-## Google Colab
-
-Open `notebooks/ioo_colab.md`, copy the cells into a new notebook, and run the local experiment. For GPU execution, the baseline remains CPU-compatible; GPU acceleration is optional for the neural extension described in the supplement.
-
-## Optional cloud publishing
-
-```bash
-export HF_TOKEN=...
-python -m cloud.huggingface_upload --repo-id YOUR_ACCOUNT/ioo-manifold-results --folder results/local
-```
-
-The upload helper only publishes files when explicitly invoked.
-
-## Paper
-
-```bash
-cd paper
-pdflatex ioo_v3.tex
-pdflatex ioo_v3.tex
-```
-
-The manuscript is deliberately written around results generated by the fresh pipeline. It does not reuse claims or numerical tables from the existing tensor-discovery, AGE, or other projects.
-
-## Scope and limitations
-
-The default benchmark is controlled simulation, not a claim of real-hardware validation. Real public telemetry connectors are included as adapters in the supplement, but external Kaggle execution and credentials are required before those results can be added to the paper. No result is allowed into the manuscript without a recorded dataset manifest, split definition, seed, and output artifact.

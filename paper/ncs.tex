@@ -26,64 +26,16 @@
 
 \title{\bf The shapes a machine draws: a recalibration-invariant relational
 fingerprint of multi-physics operation}
-\author{Sehaj Singh}
-\affil{Independent Researcher}
+\author{Sehaj Randhir Singh}
+\affil[1]{Department of Electrical and Computer Engineering, NYU Tandon School of Engineering}
+\affil[2]{Independent Researcher}
 \date{}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-A machine under load moves along a coupled thermal, mechanical and electrical
-trajectory, and every pair of its logged channels traces a shape as it runs.
-We construct a nine-descriptor \emph{atlas} of those shapes for any record of
-telemetry, and show three things about it. First, eight of the nine
-descriptors are computed on within-record ranks, so the atlas is exactly
-invariant to any independent monotone recalibration of each channel---verified
-to machine precision end to end on real data---which is the property a
-representation needs to survive sensor replacement, and the property every
-magnitude-based baseline lacks. Second, exactly one descriptor, the signed
-L\'evy area, is odd under time reversal, so it is the only one that can
-distinguish a lag from a lead; a parity argument shows that no symmetric
-statistic (correlation, mutual information, distance correlation, coherence)
-can reach this information, and on a real motor bench this single antisymmetric
-atom identifies held-out operating episodes at $32.5\%$ top-1 against $2.5\%$
-chance, while a Spearman correlation matrix reaches $7.5\%$. Third, the atlas
-generalises across domains: 81 quantiles of it assign seven real industrial
-systems---an industrial gas turbine logged for five years, a hydraulic rig, a
-motor bench, an air compressor, an electricity transformer, a wind farm and a
-pump-rig anomaly bench---at $99.4\%$ over 309 records against a $35.6\%$
-majority, where per-channel marginals reach $96.1\%$, and it diagnoses real
-faults on the hydraulic rig under simulated re-instrumentation where
-per-channel baselines collapse. The method requires a minimum of approximately
-$10^3$ samples per window to produce reliable descriptors, below which
-estimation noise dominates and neither relational nor magnitude features are
-informative. We characterise precisely what the atlas
-cannot do, and the characterisation is a controlled experiment rather than an
-appeal to intuition. Machine identity has two axes: an absolute level axis
-(payload mass, absolute pressures) and a relational axis (bearing friction,
-thermal couplings, control gain). On simulated robot fleets of 48 physically
-distinct machines each, replicated on three platforms, the atlas retrieves
-held-out siblings at or below chance when identity is carried by payload
-alone, and significantly when identity is carried by the six relational
-parameters alone (up to $20.8\%$, $p<0.001$)---while a per-channel
-calibration block is exactly the mirror image. A learned baseline sharpens
-the trade: an autoencoder trained on raw telemetry outreads the atlas on
-clean data, and falls to chance after a single per-channel recalibration of
-the held-out half, on which the atlas is numerically unmoved to machine
-precision. Recurrent and transformer encoders trained on the same data do not
-beat chance at this fleet size, suggesting the atlas's simplicity---no
-training, no hyperparameters, no GPU---is an advantage on small fleets where
-learned representations lack the data to generalise. The invariant description is therefore a tool for identification,
-auditing and transfer under changing instrumentation; its blindness to level
-is not a defect to be hidden but the price of the invariance, stated here as an
-explicit, measured trade. The method requires a minimum telemetry budget of
-approximately $10^3$ samples per window to produce stable atom estimates
-(Section~\ref{sec:budget}), and
-below roughly $10^2$ samples the noise regime makes any relational descriptor
-unreliable; this bounds the class of
-problems for which the construction is applicable, and the bound is cheap to
-check before any downstream task is attempted.
+Industrial telemetry lives on a coupled trajectory, and the relations between channels carry information that no single channel contains. We construct a nine-descriptor atlas of those relations for any record of multi-channel telemetry. Eight descriptors are computed on within-record ranks and are therefore exactly invariant to any independent monotone recalibration of each channel, verified to machine precision on real data. The ninth, the signed L\'evy area, is the unique descriptor odd under time reversal and captures causal lag that no symmetric statistic can reach. On seven real industrial systems (309 records), the atlas identifies the source system at $99.4\%$ accuracy versus $96.1\%$ for per-channel marginals; under simulated re-instrumentation, the atlas holds at $99.0\%$ while marginals collapse to $80.3\%$. In controlled simulated fleets of 48 machines replicated across three robotic platforms, an autoencoder trained on raw telemetry outperforms the atlas on clean data but collapses to chance under re-instrumentation, while the atlas is numerically unchanged. The method requires a minimum of $\sim10^3$ samples per window; its value is in identification, auditing and transfer under changing instrumentation, not in prediction.
 \end{abstract}
 
 \section{Introduction}
@@ -182,6 +134,7 @@ informative one.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{../atlas/fig1_concept.pdf}
+% Note: figure paths relative to paper/; copy fig*.pdf here for journal submission
 \caption{The same telemetry three ways. \textbf{a,b} The conventional view,
 mechanical channels moving on seconds against thermal channels moving on tens
 of minutes. \textbf{c} Four channel pairs and the shapes they trace, each the
@@ -460,7 +413,7 @@ quantiles of each atom across all pairs give 81 numbers whatever the channel
 count, and those 81 numbers say what kind of relational geometry a machine has
 rather than which particular pair does what.
 
-Across six classes---a permanent magnet motor bench, a metro air compressor,
+Across six classes---a permanent magnet motor bench, a pneumatic-pump anomaly bench,
 two fault conditions of a water circulation pump rig, a turbofan, and windows
 of a basket of traded assets---the profile assigns class at
 $93.6\pm1.4\%$ against a $28.6\%$ majority, with every record strided to the
@@ -503,8 +456,8 @@ components do not clear.}
 Everything above rests on one motor bench and on simulation. Here the same
 construction meets seven real industrial systems at once: an industrial gas
 turbine logged hourly for five years, a hydraulic test rig with 17 sensors and
-documented fault conditions, a permanent magnet motor bench, a metro air
-compressor, an electricity transformer, a wind farm SCADA feed, and a pump-rig
+documented fault conditions, a permanent magnet motor bench, a synchrophasor PMU,
+an electricity transformer, a wind farm SCADA feed, and a pneumatic-pump
 anomaly bench whose fault-free records serve as a seventh class. Channel
 counts run from 4 to 17, so the comparison uses the atom-quantile profile, and
 the marginal baseline is made commensurable the same way, by taking quantiles
@@ -904,6 +857,24 @@ gives $\Delta T \sim \tau^2$ and therefore $\beta \approx 2$ on a
 torque--temperature pair.
 \end{enumerate}
 
+\begin{figure}[t]
+\centering
+\begin{minipage}{0.92\textwidth}
+\small\ttfamily
+\textbf{Algorithm 1}\quad Atlas construction and identification\\[4pt]
+\textbf{Input:} Record $X \in \mathbb{R}^{n \times d}$ with $n$ samples, $d$ channels\\[2pt]
+\textbf{Output:} Atlas $A \in \mathbb{R}^{P \times 9}$ and signature $s \in \mathbb{R}^{81}$\\[6pt]
+1.\; $U \leftarrow$ within-record rank transform of $X$, columns mapped to $(0,1)$\\[1pt]
+2.\; \textbf{for} each unordered pair $(i,j)$, $P = \binom{d}{2}$:\\[1pt]
+\quad $A_{ij} \leftarrow (\rho,\, \eta,\, \mathrm{nlgap},\, \mathrm{asym},\, \levy,\, \mathrm{jump},\, \tau,\, \mathrm{fill},\, \beta)$ computed on $(U_i, U_j)$\\[1pt]
+3.\; $s \leftarrow$ concatenation of nine quantiles $\{0.02,\ldots,0.98\}$ of each atom across pairs\\[1pt]
+4.\; \textbf{Identify:} match $s_{\mathrm{test}}$ against candidates by cosine similarity on $\ell_2$-normalised signatures
+\end{minipage}
+\caption{Atlas construction. Steps 1--2 are $O(d^2 n)$ with no pairwise distance statistic.
+Step 3 produces a fixed-length signature regardless of $d$. Step 4 is the identification protocol.}
+\label{tab:algorithm}
+\end{figure}
+
 The whole atlas is $O(d^2 n)$ and consists of matrix products, bincounts and
 rank transforms, with no pairwise distance statistic anywhere, which keeps it
 affordable at $d = 40$ and $n = 10^5$. Three implementation choices are
@@ -1075,8 +1046,8 @@ The author declares no competing interests.
 
 \section*{Author contributions}
 
-The author conceived the study, wrote the code, ran the experiments and wrote
-the paper.
+S.R.S. conceived the study, designed the atoms and invariance proofs, wrote the
+code, ran all experiments (Kaggle kernels + local), and wrote the paper.
 
 \begin{thebibliography}{99}
 
