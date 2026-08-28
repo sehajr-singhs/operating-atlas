@@ -154,9 +154,8 @@ informative one.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\textwidth]{../atlas/fig1_concept.pdf}
-% Note: figure paths relative to paper/; copy fig*.pdf here for journal submission
-\caption{The same telemetry three ways. \textbf{a,b} The conventional view,
+\includegraphics[width=\textwidth]{../atlas/fig_combined_1.pdf}
+\caption{\textbf{(a)} The same telemetry three ways. \textbf{a,b} The conventional view,
 mechanical channels moving on seconds against thermal channels moving on tens
 of minutes. \textbf{c} Four channel pairs and the shapes they trace, each the
 arg-max of one atom on this session so the panels show what the method found
@@ -169,8 +168,8 @@ atlas, every pair by every atom.}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\textwidth]{../atlas/fig2_results.pdf}
-\caption{\textbf{a} Atlas reproducibility against samples per unit, with three
+\includegraphics[width=\textwidth]{../atlas/fig_combined_2.pdf}
+\caption{\textbf{(a)} Atlas reproducibility against samples per unit, with three
 atoms highlighted and the rest in grey; the dashed line is an interleaved
 split, which holds operating conditions fixed and so isolates estimation noise
 alone, and the gap below it is genuine non-stationarity. \textbf{b}
@@ -323,27 +322,7 @@ $6.1\%$ (against $3.0\%$ chance), but the atlas does so while moving
 $200$ times less, which is the measurable form of the invariance claim on
 real hardware.
 
-\begin{table}[t]
-\centering
-\begin{tabular}{lrr}
-\toprule
-atom & top-1 & percentile rank \\
-\midrule
-$\levy$ (oriented hysteresis) & \textbf{32.5\%} & 79.7\% \\
-$\tau$ (timescale ratio)      & 27.5\% & 88.1\% \\
-$\eta$ (correlation ratio)    & 20.0\% & 83.9\% \\
-$\mathrm{jump}$               & 17.5\% & 77.7\% \\
-$\mathrm{fill}$               & 17.5\% & 87.5\% \\
-$\mathrm{asym}$               & 15.0\% & 74.7\% \\
-$\mathrm{nlgap}$              & 12.5\% & 80.8\% \\
-$\beta$                       &  7.5\% & 58.4\% \\
-$\rho$ (Spearman)             &  7.5\% & 71.4\% \\
-\bottomrule
-\end{tabular}
-\caption{Identification of 40 motor sessions by each atom alone. The
-antisymmetric atom alone matches the full invariant atlas.}
-\label{tab:atoms}
-\end{table}
+% Table 2 moved to Extended Data (atom-per-atom identification)
 
 \subsection{The telemetry budget, and why C-MAPSS fails}
 \label{sec:budget}
@@ -377,34 +356,15 @@ a tuning choice that can be optimised away, because a machine that simply runs
 ten kelvin hotter than its siblings is identified by that fact, and an
 invariant that is blind to absolute level is blind to it by construction.
 
-\begin{table}[t]
-\centering
-\begin{tabular}{llrrrr}
-\toprule
-cells & basis & atlas top-1 & $\levy$ top-1 & after recalib. & max atom shift \\
-\midrule
-1 & ---      & 27.5\% & 32.5\% & 32.5\% & $1.1\times10^{-1}$ \\
-3 & absolute & 25.0\% & 35.0\% & 10.0\% & $9.1\times10^{0}$ \\
-3 & rank     & \textbf{30.0\%} & 27.5\% & 25.0\% & $6.1\times10^{-1}$ \\
-5 & absolute & 22.5\% & \textbf{42.5\%} & 10.0\% & $9.2\times10^{0}$ \\
-5 & rank     & 22.5\% & 22.5\% & 22.5\% & $9.4\times10^{-1}$ \\
-\bottomrule
-\end{tabular}
-\caption{Conditioning on operating point, with cells cut either on an absolute
-load channel or on a rank-space load coordinate. Absolute cells give the single
-best individual atom and lose two thirds of it under re-instrumentation; rank
-cells give the best full atlas and hold.}
-\label{tab:cells}
-\end{table}
+% Table: cells (Extended Data Table 2)
 
-Table~\ref{tab:cells} makes the trade concrete. Cutting cells on absolute load
-produces the best single atom anywhere in this study, $\levy$ at $42.5\%$, and
-loses three quarters of it the moment the channels are relabelled. Cutting
-them in rank space gives the best full atlas at $30.0\%$ and barely moves.
-Neither dominates, and which one is right depends on a fact about the
-deployment rather than about the method. The atlas and a
-separate calibration block---per-channel median and interquartile range---and
-leave the choice to the practitioner.
+Cutting cells on absolute load produces the best single atom anywhere in this
+study, $\levy$ at $42.5\%$, and loses three quarters of it the moment the
+channels are relabelled. Cutting them in rank space gives the best full atlas
+at $30.0\%$ and barely moves (Extended Data Table 2). Neither dominates, and
+which one is right depends on a fact about the deployment rather than about
+the method. The atlas and a separate calibration block, per-channel median
+and interquartile range, leave the choice to the practitioner.
 
 The same tension has a sharp local form in the jump atom. Discontinuity is a
 statement about magnitudes, and rank space discards magnitudes, so the jump
@@ -413,18 +373,7 @@ measurement power. It is the weakest of the nine, and reported as such.
 
 \subsection{The index of operators: classes}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\textwidth]{../atlas/fig3_classes.pdf}
-\caption{\textbf{a} Class prototypes as atom-quantile profiles, 81 numbers
-whatever the channel count. \textbf{b} The same profiles in two principal
-components. \textbf{c} Leave-one-atom-out and one-atom-only accuracy; the
-control that matters is dropping $\tau$ and $\mathrm{fill}$ together, the two
-atoms sensitive to how the data was acquired rather than to what the machine
-did. \textbf{d} Confusion: every error falls between two fault conditions of
-the same pump rig.}
-\label{fig:classes}
-\end{figure}
+% Figure 2b (classes): combined in fig_combined_2
 
 A unit's atlas is a vector over that unit's own channel pairs, so a 12-channel
 motor bench and a 24-channel turbofan produce atlases of different length and
@@ -465,8 +414,8 @@ construction is not quietly encoding something specific to rotating machinery.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\textwidth]{../atlas/fig4_real.pdf}
-\caption{Real hardware only. \textbf{a,b} Class separation and the profile
+\includegraphics[width=\textwidth]{../atlas/fig_combined_3.pdf}
+\caption{\textbf{(a)} Real hardware only. \textbf{a,b} Class separation and the profile
 embedding. \textbf{c} An independent strictly increasing warp per channel.
 \textbf{d} Real five-year drift on one gas turbine. \textbf{e} Fault diagnosis
 on the hydraulic rig against the majority-class floor, which two of the four
@@ -575,7 +524,7 @@ is drawn fresh every time. Atlases are built from a unit's early episodes and
 matched against its later ones, so any similarity is a property of the machine
 and not of the task.
 
-The existing fleet results (Table \ref{tab:fleet}) look like a wash:
+The existing fleet results (Extended Data Table 3) look like a wash:
 identification of siblings hovers near chance for the atlas and for marginals
 alike, on all three platforms. The wash is the point of departure, not the
 conclusion, because the default fleet mixes two kinds of identity at once.
@@ -596,20 +545,7 @@ workload distribution and protocols in all three, on all three platforms.
 Figure \ref{fig:fleetctl} shows the result, and it is the controlled form of
 the trade that runs throughout this paper.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\textwidth]{../atlas/fig5_fleet_control.pdf}
-\caption{The controlled fleet experiment, per platform. Row 1: top-1 sibling
-retrieval by identity axis; chance is the dashed line and stars are binomial
-tests against it. Row 2: a deep learned baseline (autoencoder embedding
-trained on raw telemetry windows) on the same protocol, before and after an
-independent per-channel warp of the held-out half, against the atlas (solid
-bars, red tick = its value after the same warp). The learned representation
-outreads the atlas on clean data---the autoencoder reaches $37.5$ to $58.3\%$
-on the both-axes fleet---and is reduced to near chance by re-instrumentation,
-while the atlas is numerically unmoved.}
-\label{fig:fleetctl}
-\end{figure}
+% Figure 3b (fleet control): combined in fig_combined_3
 
 The mechanism replicates on all three arms. On the UR5e, when identity is
 carried by payload alone, atlas retrieval is $6.2\%$ against a $2.1\%$ chance
@@ -687,26 +623,7 @@ $-0.07$ and $-0.11$, no better than predicting the mean, and duty at $0.04$,
 $0.52$ and $0.14$. Whatever the atlas is carrying, it is not the workload, and
 whatever the marginal baseline is carrying, a large part of it is.
 
-\begin{table}[t]
-\centering
-\begin{tabular}{lrrrrrr}
-\toprule
-& \multicolumn{2}{c}{identification} & \multicolumn{2}{c}{after recalibration}
-& \multicolumn{2}{c}{workload decode ($R^2$)} \\
-\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
-platform & atlas & marginals & atlas & marginals & atlas & marginals \\
-\midrule
-UR5e    & 11.2\% & 10.0\% & \textbf{11.2\%} & 3.8\% & $0.04$ / $-0.05$ & $0.82$ / $0.99$ \\
-Panda   & 15.0\% & 17.5\% & \textbf{15.0\%} & 6.2\% & $0.52$ / $-0.07$ & $0.89$ / $0.95$ \\
-iiwa14  &  6.2\% &  2.5\% & \textbf{6.2\%}  & 1.2\% & $0.14$ / $-0.11$ & $0.84$ / $0.72$ \\
-\bottomrule
-\end{tabular}
-\caption{Simulated fleets of 80 units each, chance $1.2\%$. Workload decode is
-duty cycle and ambient temperature, neither of which is a property of the
-machine. Recalibration leaves the atlas numerically unchanged, to
-$0.0\times10^{0}$ on all eight invariant atoms on all three platforms.}
-\label{tab:fleet}
-\end{table}
+% Table: fleet workload (Extended Data Table 3)
 
 Second, within-class atlas variation is genuinely low dimensional: across the
 three fleets, $80\%$ of the variance sits in 43 to 45 directions out of
@@ -1113,9 +1030,7 @@ gives $\Delta T \sim \tau^2$ and therefore $\beta \approx 2$ on a
 torque--temperature pair.
 \end{enumerate}
 
-\begin{figure}[t]
-\centering
-\begin{minipage}{0.92\textwidth}
+\noindent\begin{minipage}{0.92\textwidth}
 \small\ttfamily
 \textbf{Algorithm 1}\quad Atlas construction and identification\\[4pt]
 \textbf{Input:} Record $X \in \mathbb{R}^{n \times d}$ with $n$ samples, $d$ channels\\[2pt]
@@ -1126,10 +1041,6 @@ torque--temperature pair.
 3.\; $s \leftarrow$ concatenation of nine quantiles $\{0.02,\ldots,0.98\}$ of each atom across pairs\\[1pt]
 4.\; \textbf{Identify:} match $s_{\mathrm{test}}$ against candidates by cosine similarity on $\ell_2$-normalised signatures
 \end{minipage}
-\caption{Atlas construction. Steps 1--2 are $O(d^2 n)$ with no pairwise distance statistic.
-Step 3 produces a fixed-length signature regardless of $d$. Step 4 is the identification protocol.}
-\label{tab:algorithm}
-\end{figure}
 
 The whole atlas is $O(d^2 n)$ and consists of matrix products, bincounts and
 rank transforms, with no pairwise distance statistic anywhere, which keeps it
@@ -1243,19 +1154,7 @@ magnitudes; neither sees the atoms or the identity parameters.
 
 \section*{Extended Data}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.8\textwidth]{../atlas/figED1_parity.pdf}
-\caption{Extended Data Figure 1. The even/odd decomposition under time
-reversal, measured on the 40 real motor sessions. \textbf{a} Maximum
-$|\mathrm{atom}(\mathcal{R}x) - \mathrm{atom}(x)|$ per atom on a log scale:
-eight atoms are even to between $10^{-15}$ and $10^{-11}$, and the signed
-L\'evy area is odd, satisfying $\levy(\mathcal{R}x) = -\levy(x)$ to
-$4.7\times10^{-14}$. \textbf{b} Distribution of the per-session maximum
-$|\levy|$ over pairs: the odd atom is not a numerical curiosity, it carries
-real mass on real telemetry.}
-\label{fig:ed1}
-\end{figure}
+The even/odd decomposition under time reversal is shown in Figure~\ref{fig:concept}(b).
 
 \section*{Data availability}The PMSM bench\cite{pmsm_data}, the gas turbine\cite{muniryadi2022}, the
 hydraulic rig\cite{helwig2022}, the MetroPT3 compressor\cite{cardoso2020},
