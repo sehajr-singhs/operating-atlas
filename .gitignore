@@ -7,10 +7,11 @@ dist/
 build/
 
 # Data (large files)
-data/*.npz
-data/*.pt
-data/*.csv
-data/*.zip
+data/
+cmapss/
+*.tar
+*.pt
+results/pmsm_front_quick.pt
 
 # Cache
 *.log
