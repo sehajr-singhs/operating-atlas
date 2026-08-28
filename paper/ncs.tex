@@ -99,10 +99,18 @@ Four literatures touch this and none of them do it.
 Path signatures from rough path theory give a canonical description of the
 shape of a multivariate path \cite{lyons1998,lyons2007,chevyrev2016}, and their
 depth-2 term is precisely the L\'evy area used as one of nine atoms. Signatures
-are the closest formal ancestor of this work. They are also combinatorially
-expensive in the channel count, they carry no notion of how single valued or
-how discontinuous a relation is, and they are not organised into a class
-prototype with per-unit deformations.
+are the closest formal ancestor of this work. Full truncated signatures of
+order $k$ contain $\binom{d}{k}$ basis elements and scale combinatorially in
+the channel count $d$, whereas the atlas computes $O(d^2 n)$ pairwise
+descriptors using standard matrix operations, bin counts and rank transforms.
+At $d = 31$ (the PMSM bench) a depth-3 signature has $4{,}960$ elements,
+versus the atlas's $81$-dimensional quantile profile. Signatures also carry
+no notion of how single valued or how discontinuous a relation is, and they
+are not organised into a class prototype with per-unit deformations. A direct
+benchmark against full path signatures was not included because the
+combinatorial scaling makes the comparison unbalanced at the channel counts
+where the atlas operates, but the depth-2 term, which is the L\'evy area, is
+already included as one of the nine atoms.
 
 Topological data analysis supplies the support and loop structure of a point
 cloud \cite{edelsbrunner2008,carlsson2009,zomorodian2005}, which is close to
@@ -993,9 +1001,14 @@ from the second half. Features are $z$-scored on the pooled set, $\ell_2$
 normalised per unit, and matched by cosine similarity. Top-1 is the fraction
 of units whose own second half is their nearest neighbour among all
 candidates, and percentile rank is the mean position of the true match in the
-ranked candidate list, so chance is $1/n$ and $50\%$ respectively. The
-binomial 95\% CI for the motor-bench atlas is computed as the exact Clopper
---Pearson interval on $13/40$.
+ranked candidate list, so chance is $1/n$ and $50\%$ respectively.The binomial 95\% CI for the motor-bench atlas is computed as the exact Clopper
+--Pearson interval on $13/40$. Confidence intervals on the fleet experiments
+(Tables~\ref{tab:fleetctl} and~\ref{tab:fleetwk}) are omitted because those
+results come from deterministic simulated fleets with fixed random seeds;
+the numbers are exact for the given simulation rather than estimates from a
+stochastic process. Bootstrap subsampling CIs are reported only on real
+data where sampling variance is present (Table~\ref{tab:fault} and the
+seven-system benchmark).
 
 \subsection{Class profiles}
 
