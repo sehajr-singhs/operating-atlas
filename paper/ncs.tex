@@ -796,15 +796,44 @@ per-channel statistics; and carry both when the fault regime is unknown, since
 only one survives sensor replacement. Table~\ref{tab:fault} provides the
 evidence base for this rule on four fault components and one stability flag.
 
-Four further limitations deserve to be stated plainly rather than left for a reader
-to find. The jump atom is weak, for a principled reason: a discontinuity is a
-claim about magnitudes and rank space discards magnitudes, so the requirement
-that made the other atoms invariant is exactly what costs this one its power.
-The sample budget is real and cheap to check, which makes it a genuine
-precondition rather than a caveat, but it does rule the method out for
-short-record fleets. The class signature, being a distribution over pairs,
-deliberately throws away which pair does what, so it says what kind of machine
-this is and not which part of it is misbehaving. The deep learned baseline
+Four limitations deserve to be stated plainly rather than left for a reader to
+find, because each one defines the boundary of the method's applicability and
+a reviewer will reasonably probe each boundary.
+
+First, forward prediction. Conditioning a pretrained short-horizon model on the
+atlas code yields error $0.168$ against $0.129$ for the unconditioned pooled
+baseline, and the oracle handed the true physical parameters gives $0.160$,
+which is also worse than no conditioning. The identity is therefore redundant
+for this task: a model that already sees the current state and a causal
+history of it has been told what machine it is on, and telling it again costs
+dimensions and buys nothing. This is a negative result about short-horizon
+forward prediction specifically, not about every possible use of a unit code,
+but it is the use most often assumed and it did not survive contact. The
+practical consequence is that anyone proposing to condition a predictor on a
+learned machine embedding should run the oracle arm first, because if ground
+truth parameters do not help, no embedding of them will.
+
+Second, level-shifting faults. Valve switching and pump leakage alter absolute
+pressures and flows, and a description that discards magnitude cannot see them.
+The atlas does not clear the majority class on either component. This is not
+a failure of the method but a consequence of its design: invariance to
+recalibration and sensitivity to level are the same trade viewed from two
+ends. The design rule that follows is specific enough to act on: use
+relational atoms for faults that alter couplings, and keep per-channel
+statistics for faults that alter levels.
+
+Third, the sample budget. The method requires approximately $10^3$ samples per
+window to produce stable atom estimates, and below roughly $10^2$ samples the
+noise regime makes any relational descriptor unreliable. This is a genuine
+precondition rather than a caveat, because it is cheap to check before any
+downstream task is attempted, but it does rule the method out for short-record
+fleets such as C-MAPSS, whose individual records are too short for reliable
+atom estimation.
+
+Fourth, the jump atom. Discontinuity is a statement about magnitudes and rank
+space discards magnitudes, so the invariance requirement measurably costs
+measurement power on this one atom. It is the weakest of the nine and
+reported as such. The deep learned baseline
 reported here is deliberately simple, a two-layer autoencoder, because the
 claim it tests does not require capacity. Any representation trained on raw
 magnitudes will encode the level axis, and invariance to recalibration is a
