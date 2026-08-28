@@ -1,835 +1,538 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Shapes a Machine Draws — Operating Atlas</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,380;0,8..60,600;1,8..60,380&family=JetBrains+Mono:wght@400;600&display=swap">
-<style>
-:root{
-  --ground:#F3F5F6; --surface:#FFFFFF; --sunk:#EAEEF0;
-  --ink:#161B1F; --body:#2C353B; --muted:#5A6670; --rule:#D9E0E3;
-  --hot:#C8571F; --hot-soft:#F4E2D8; --cold:#1B6E78; --cold-soft:#DCEAEC;
-  --warn:#8A6A12; --green:#0A7A5E; --green-soft:#DCEFE8;
-  --maxw:1180px; --text:70ch;
-  --f-display:'Archivo','Helvetica Neue',Arial,sans-serif;
-  --f-body:'Source Serif 4',Georgia,'Times New Roman',serif;
-  --f-mono:'JetBrains Mono','SFMono-Regular',Consolas,monospace;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --ground:#101417; --surface:#171C20; --sunk:#1D2429;
-    --ink:#E9EEF0; --body:#C3CDD2; --muted:#8D9BA3; --rule:#283137;
-    --hot:#E8843F; --hot-soft:#3A2317; --cold:#4FB3BE; --cold-soft:#123037;
-    --warn:#D6AC3C; --green:#48BE9C; --green-soft:#122A24;
-  }
-}
-:root[data-theme="dark"]{
-  --ground:#101417; --surface:#171C20; --sunk:#1D2429;
-  --ink:#E9EEF0; --body:#C3CDD2; --muted:#8D9BA3; --rule:#283137;
-  --hot:#E8843F; --hot-soft:#3A2317; --cold:#4FB3BE; --cold-soft:#123037;
-  --warn:#D6AC3C; --green:#48BE9C; --green-soft:#122A24;
-}
-*{box-sizing:border-box}
-body{
-  margin:0; background:var(--ground); color:var(--body);
-  font-family:var(--f-body); font-size:17px; line-height:1.62;
-  -webkit-font-smoothing:antialiased;
-}
-.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
-h1,h2,h3,h4{font-family:var(--f-display); color:var(--ink); text-wrap:balance; margin:0}
-h1{font-size:clamp(2.3rem,5.2vw,3.9rem); font-weight:700; letter-spacing:-.022em; line-height:1.04}
-h2{font-size:clamp(1.4rem,2.5vw,1.85rem); font-weight:600; letter-spacing:-.014em}
-h3{font-size:1.12rem; font-weight:600; letter-spacing:-.005em}
-h4{font-size:.98rem; font-weight:600}
-p{margin:0 0 1.05em; max-width:var(--text)}
-a{color:var(--cold)}
-.mono{font-family:var(--f-mono)}
-.muted{color:var(--muted)}
+  <meta charset="utf-8">
+  <meta name="description" content="Relational atoms of multi-physics operation: recalibration-invariant fingerprints for industrial telemetry. Seven real systems, three robotic platforms, provable invariance.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Shapes a Machine Draws</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/computer-modern/cmu-serif.css">
 
-/* ---- masthead ---- */
-header.top{border-bottom:1px solid var(--rule); background:var(--surface)}
-.top .wrap{padding-top:52px; padding-bottom:44px}
-.eyebrow{
-  font-family:var(--f-mono); font-size:.7rem; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--hot); margin-bottom:20px;
-}
-.standfirst{
-  font-size:1.2rem; max-width:64ch; margin-top:22px; color:var(--body);
-}
-.standfirst strong{color:var(--ink); font-weight:600}
-.meta{
-  display:flex; flex-wrap:wrap; gap:26px; margin-top:30px;
-  font-family:var(--f-mono); font-size:.74rem; color:var(--muted);
-  border-top:1px solid var(--rule); padding-top:18px;
-}
-.meta b{color:var(--ink); font-weight:600}
+  <script>
+    MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] } };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
-/* ---- stage spine ---- */
-main{padding:0 0 90px}
-.stage{border-bottom:1px solid var(--rule); padding:56px 0}
-.stage .wrap{display:grid; grid-template-columns:88px 1fr; gap:34px}
-.stagenum{
-  font-family:var(--f-mono); font-size:.72rem; letter-spacing:.1em;
-  color:var(--muted); border-top:2px solid var(--hot); padding-top:10px;
-}
-.stagenum span{display:block; color:var(--hot); font-weight:600}
-@media(max-width:760px){
-  .stage .wrap{grid-template-columns:1fr; gap:14px}
-  .stagenum{border-top:none; border-left:2px solid var(--hot); padding:0 0 0 12px}
-}
+  <style>
+    :root {
+      --ink: #1a1a1a; --muted: #555; --faint: #8c8e90; --panel: #f8f8f8;
+      --border: #c4c6c8; --link: #226999; --good: #1e6b3a; --bad: #b03a2e;
+      --warm: #b85c2f;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #fff; }
+    body { font-family: 'CMU Serif', Georgia, serif; font-weight: 500;
+      color: var(--ink); -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+    .has-text-centered { text-align: center; }
+    .has-text-justified { text-align: justify; }
 
-/* ---- figures ---- */
-.fig{margin:26px 0 8px}
-.figwell{
-  background:var(--surface); border:1px solid var(--rule); border-radius:3px;
-  padding:12px; overflow-x:auto;
-}
-.figwell img{display:block; width:100%; height:auto; border-radius:2px}
-figcaption{
-  font-family:var(--f-mono); font-size:.73rem; line-height:1.55;
-  color:var(--muted); margin-top:10px; max-width:78ch;
-}
-.figlabel{color:var(--hot); font-weight:600; margin-right:8px}
-.fig.bleed{margin-left:calc(-1 * min(7vw, 90px)); margin-right:calc(-1 * min(7vw, 90px))}
-@media(max-width:900px){.fig.bleed{margin-left:0;margin-right:0}}
+    .hero { padding: 4.2rem 0 1.6rem; }
+    .publication-title { font-family: 'CMU Serif', Georgia, serif;
+      font-weight: 700 !important; line-height: 1.12; letter-spacing: 0;
+      font-size: 2.5rem; text-wrap: balance; }
+    .publication-title strong { font-weight: 900 !important; }
+    .publication-sub { margin-top: 1.1rem; font-family: 'Inter', sans-serif;
+      font-size: 1.05rem; color: var(--muted); line-height: 1.5;
+      max-width: 60rem; margin-left: auto; margin-right: auto; }
+    .tagline { margin-top: 0.9rem; font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.92rem; color: var(--ink); letter-spacing: 0.01em; }
+    .authors { margin-top: 1.2rem; font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; color: var(--ink); }
+    .affiliation { margin-top: 0.15rem; font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; color: var(--faint); }
+    .links { margin-top: 1.5rem; font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.88rem; display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem;
+      justify-content: center; }
 
-/* ---- callout ---- */
-.callout{
-  background:var(--sunk); border-left:3px solid var(--cold);
-  padding:20px 24px; margin:26px 0; border-radius:0 3px 3px 0;
-}
-.callout p:last-child{margin-bottom:0}
-.callout.hot{border-left-color:var(--hot)}
-.callout.green{border-left-color:var(--green)}
-.eq{
-  font-family:var(--f-mono); font-size:.94rem; color:var(--ink);
-  background:var(--sunk); padding:14px 18px; border-radius:3px;
-  overflow-x:auto; margin:18px 0; border:1px solid var(--rule);
-}
+    .section { padding: 2.4rem 0 1.2rem; }
+    .title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em;
+      margin-bottom: 1rem; padding-bottom: 0.35rem; border-bottom: 1px solid var(--border); }
+    .section p { line-height: 1.6; color: var(--ink); margin-bottom: 0.9rem; }
+    .muted { color: var(--muted); }
 
-/* ---- tables ---- */
-.tablewrap{overflow-x:auto; margin:22px 0}
-.tablewrap h4{margin-bottom:8px; font-family:var(--f-mono); font-size:.76rem;
-  letter-spacing:.1em; text-transform:uppercase; color:var(--hot)}
-table{border-collapse:collapse; width:100%; font-size:.86rem}
-th,td{text-align:left; padding:8px 14px 8px 0; border-bottom:1px solid var(--rule)}
-th{font-family:var(--f-mono); font-size:.7rem; letter-spacing:.08em;
-  text-transform:uppercase; color:var(--muted); font-weight:600}
-td{font-family:var(--f-body)}
-td.num{font-family:var(--f-mono); font-variant-numeric:tabular-nums; font-size:.82rem}
-.pm{color:var(--muted)}
-tr.ref td{color:var(--ink)}
-tr.ref td:first-child::after{content:' — reference'; color:var(--muted);
-  font-family:var(--f-mono); font-size:.7rem}
-tr.sig td{background:var(--hot-soft)}
+    .abstract { background: var(--panel); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1.4rem 1.6rem; font-size: 0.99rem;
+      line-height: 1.62; text-align: justify; }
 
-/* ---- findings ledger ---- */
-ul.findings{list-style:none; padding:0; margin:22px 0 0; display:grid; gap:2px}
-.finding{
-  display:grid; grid-template-columns:112px 1fr; gap:20px; align-items:start;
-  background:var(--surface); border:1px solid var(--rule); padding:18px 20px;
-}
-.finding h4{margin-bottom:4px}
-.finding p{margin:0; font-size:.94rem}
-.verdict{
-  font-family:var(--f-mono); font-size:.66rem; letter-spacing:.1em;
-  text-transform:uppercase; padding:4px 8px; border-radius:2px;
-  display:inline-block; font-weight:600; white-space:nowrap;
-}
-.f-confirmed .verdict{background:var(--cold-soft); color:var(--cold)}
-.f-refuted .verdict{background:var(--hot-soft); color:var(--hot)}
-.f-null .verdict{background:var(--sunk); color:var(--muted)}
-.f-surprise .verdict{background:var(--hot); color:var(--surface)}
-.f-scoped .verdict{background:var(--green-soft); color:var(--green)}
-@media(max-width:640px){.finding{grid-template-columns:1fr; gap:10px}}
+    .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem; margin-top: 1.1rem; }
+    .impact { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .impact-img { width: 100%; display: block; border-bottom: 1px solid var(--border); }
+    .impact-body { padding: 0.9rem 1.1rem 1.05rem; }
+    .impact-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;
+      font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase;
+      color: var(--ink); margin-bottom: 0.35rem; }
+    .impact-body p { font-size: 0.88rem; line-height: 1.5; color: var(--muted); margin: 0; }
 
-/* ---- systems grid ---- */
-.systems{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
-  gap:2px; margin:24px 0}
-.sys{background:var(--surface); border:1px solid var(--rule); padding:16px 18px}
-.sys .kind{font-family:var(--f-mono); font-size:.66rem; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--muted)}
-.sys .name{font-family:var(--f-display); font-weight:600; color:var(--ink);
-  font-size:1.05rem; margin:5px 0 6px}
-.sys dl{margin:0; font-family:var(--f-mono); font-size:.74rem; color:var(--muted)}
-.sys dl div{display:flex; justify-content:space-between; gap:10px; padding:2px 0}
-.sys dl b{color:var(--body); font-weight:400}
+    table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;
+      font-size: 0.83rem; margin: 1rem 0 1.4rem; background: var(--panel);
+      border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    th, td { padding: 0.5rem 0.65rem; text-align: right; border-bottom: 1px solid var(--border); }
+    th:first-child, td:first-child { text-align: left; }
+    thead th { font-weight: 600; font-size: 0.78rem; letter-spacing: 0.02em;
+      text-transform: uppercase; color: var(--muted); background: #fff; }
+    tbody tr:last-child td { border-bottom: none; }
+    td.win { color: var(--good); font-weight: 700; }
+    td.bad { color: var(--bad); font-weight: 600; }
+    .table-note { font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem;
+      color: var(--faint); margin-top: -1rem; margin-bottom: 1.2rem; }
+    .tablescroll { overflow-x: auto; }
 
-/* ---- atom grid ---- */
-.atom-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin:24px 0}
-.atom-card{background:var(--surface); border:1px solid var(--rule); padding:18px 20px; border-radius:3px}
-.atom-card h4{margin:0 0 4px; font-size:1rem}
-.atom-card .atom-type{font-family:var(--f-mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px}
-.atom-card .atom-type.even{color:var(--cold)}
-.atom-card .atom-type.odd{color:var(--hot)}
-.atom-card p{margin:0; font-size:.9rem; color:var(--body)}
+    .findings { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.5rem; }
+    .finding { display: grid; grid-template-columns: 100px 1fr; gap: 1rem;
+      background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.9rem 1.1rem; }
+    .finding h4 { font-size: 0.92rem; margin-bottom: 0.25rem; }
+    .finding p { margin: 0; font-size: 0.88rem; color: var(--muted); }
+    .verdict { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 7px;
+      border-radius: 3px; display: inline-block; font-weight: 600; white-space: nowrap; }
+    .v-confirmed { background: #dcefec; color: var(--link); }
+    .v-refuted { background: #f4ded8; color: var(--bad); }
+    .v-scoped { background: #e0eee4; color: var(--good); }
+    .v-design { background: var(--panel); color: var(--muted); border: 1px solid var(--border); }
 
-/* ---- two-col ---- */
-.two-col{display:grid; grid-template-columns:1fr 1fr; gap:32px; margin:24px 0}
-@media(max-width:760px){.two-col{grid-template-columns:1fr}}
+    .systems { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.5rem; margin: 1rem 0; }
+    .sys { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.8rem 1rem; }
+    .sys .kind { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+    .sys .name { font-family: 'CMU Serif', Georgia, serif; font-weight: 700;
+      color: var(--ink); font-size: 0.95rem; margin: 3px 0 4px; }
+    .sys dl { margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+    .sys dl div { display: flex; justify-content: space-between; gap: 8px; padding: 1px 0; }
+    .sys dl b { color: var(--ink); font-weight: 500; }
 
-footer{border-top:1px solid var(--rule); background:var(--surface); padding:36px 0 60px}
-footer .wrap{font-family:var(--f-mono); font-size:.74rem; color:var(--muted)}
-footer a{color:var(--cold)}
-::selection{background:var(--hot); color:#fff}
-:focus-visible{outline:2px solid var(--cold); outline-offset:2px}
-@media(prefers-reduced-motion:no-preference){
-  .fig img{transition:none}
-}
-</style>
+    .atom-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 0.6rem; margin: 1rem 0; }
+    .atom { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.8rem 1rem; }
+    .atom .tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+    .atom .tag.even { color: var(--link); }
+    .atom .tag.odd { color: var(--warm); }
+    .atom h4 { font-size: 0.9rem; margin-bottom: 3px; }
+    .atom p { margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.45; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1rem 0; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+    pre { background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+      padding: 1.1rem 1.3rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;
+      line-height: 1.55; overflow-x: auto; margin: 1rem 0; }
+
+    footer { margin-top: 3rem; padding: 1.6rem 0 2.6rem; border-top: 1px solid var(--border);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--faint);
+      text-align: center; }
+    @media (max-width: 600px) { .publication-title { font-size: 1.8rem; }
+      th, td { padding: 0.4rem 0.4rem; font-size: 0.74rem; } }
+  </style>
 </head>
-
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- MASTHEAD                                                          -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<header class="top"><div class="wrap">
-  <div class="eyebrow">Multi-physics machine learning &middot; research note</div>
-  <h1>The shapes a machine draws</h1>
-  <p class="standfirst">Every pair of a machine's channels traces a shape as it
-  runs. Nine scalar descriptors of those shapes separate kinds of machine,
-  diagnose real faults, and <strong>do not move at all when the instrumentation
-  is changed</strong> &mdash; which is exactly where the obvious alternative
-  collapses.</p>
-  <div class="meta">
-    <div><b>7</b> real industrial systems</div>
-    <div><b>3</b> robotic platforms &times; 3 fleet types</div>
-    <div><b>1.76M</b> telemetry samples</div>
-    <div><b>9</b> atoms per channel pair</div>
-    <div><b>44</b> references</div>
-  </div>
-</div></header>
-
-<main>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 00 — The machine is not at a point, it is on one            -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>00</span></div>
-  <div>
-    <h2>The machine is not at an operating point. It is on one.</h2>
-    <p>A servo joint accelerating a payload dissipates ohmic heat into a winding
-    whose rising temperature derates the torque available to the next command
-    &mdash; on a thermal time constant three decades slower than the control loop
-    that issued it. A traction motor's rotor temperature, which no production
-    sensor can reach, is a functional of the entire recent history of current and
-    speed.</p>
-    <p>In both cases the target depends on <em>where</em> the machine sits on a
-    coupled multi-physics trajectory, and one monolithic network has to serve
-    every part of that trajectory at once. Mixture-of-experts routing is the
-    standard answer, and the router almost always reads the raw state. The
-    proposal tested here is to route on the geometry instead.</p>
-
-    <div class="callout">
-      <p><strong>The core question:</strong> Can the local geometry of a
-      machine's operating trajectory &mdash; how channels relate, not what
-      they measure &mdash; serve as a recalibration-invariant fingerprint that
-      survives sensor replacement, ageing, and drift?</p>
+<section class="hero">
+  <div class="container has-text-centered">
+    <h1 class="publication-title">The Shapes a <strong>Machine</strong> Draws</h1>
+    <div class="tagline">Recalibration-invariant relational atoms of multi-physics operation for industrial telemetry</div>
+    <div class="authors">Sehaj Singh</div>
+    <div class="affiliation">Independent Researcher</div>
+    <div class="links">
+      <a href="manuscript_NCS.pdf">Paper (22 pages, NCS format)</a>
+      <a href="https://github.com/sehajr-singhs/operating-atlas">GitHub</a>
+      <a href="findings.html">Findings page</a>
+      <a href="https://www.kaggle.com/sehajrsingh">Kaggle kernels</a>
+      <a href="https://huggingface.co/spaces/Sejibeji/operating-atlas">HF Space</a>
     </div>
   </div>
-</div></section>
+</section>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 01 — The nine atoms                                         -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>01</span></div>
-  <div>
-    <h2>Nine atoms describe every channel pair</h2>
-    <p>For a machine with <em>d</em> channels there are
-    <em>d</em>(<em>d</em>&minus;1)/2) ordered pairs. Each pair
-    (<em>x</em><sub><em>i</em></sub>, <em>x</em><sub><em>j</em></sub>) gets
-    nine scalar descriptors &mdash; <strong>atoms</strong> &mdash; computed from
-    the joint trajectory. Eight are built from within-unit ranks and are
-    therefore exactly invariant to any strictly monotone recalibration of each
-    channel separately. The ninth, the signed L&eacute;vy area, carries the
-    arrow of time.</p>
+<div class="container">
 
-    <div class="atom-grid">
-      <div class="atom-card">
-        <div class="atom-type even">Even &middot; rank-based</div>
-        <h4>Spearman &rho;</h4>
-        <p>Monotone association. How strongly one channel tracks another,
-        regardless of scale. Survives any monotone warp.</p>
-      </div>
-      <div class="atom-card">
-        <div class="atom-type even">Even &middot; rank-based</div>
-        <h4>Distance correlation</h4>
-        <p>Functional strength. Detects any dependence, linear or not.
-        Zero iff independent.</p>
-      </div>
-      <div class="atom-card">
-        <div class="atom-type even">Even &middot; rank-based</div>
-        <h4>Hoeffding D</h4>
-        <p>Nonlinearity gap. Measures how far the joint distribution
-        deviates from independence beyond what correlation catches.</p>
-      </div>
-      <div class="atom-card">
-        <div class="atom-type even">Even &middot; rank-based</div>
-        <h4>Copula asymmetry</h4>
-        <p>Functional asymmetry. Whether the dependence is stronger
-        in one tail than the other.</p>
-      </div>
-      <div class="atom-card">
-        <div class="atom-type odd">Odd &middot; time-ordered</div>
-        <h4>Signed L&eacute;vy area</h4>
-        <p><strong>The arrow of time.</strong> Oriented hysteresis. Flips sign
-        under time reversal. The one atom a correlation matrix cannot reach.
-        Carries the most identification signal.</p>
-      </div>
-      <div class="atom-card">
-        <div class="atom-type even">Even &middot; rank-based</div>
-        <h4>Jump share</h4>
-        <p>Discontinuity. What fraction of the trajectory is spent in
-        jumps rather than smooth motion.</p>
-      </div>
-      <div class="atom-card">
-        <div class="atom-type even">Even &middot; rank-based</div>
-        <h4>Timescale ratio</h4>
-        <p>How the power is distributed across frequencies. Separates
-        slow thermal drift from fast mechanical oscillation.</p>
-      </div>
-      <div class="atom-card">
-        <div class="atom-type even">Even &middot; rank-based</div>
-        <h4>Support occupancy</h4>
-        <p>How much of the rank-plane the trajectory actually visits.
-        Filled loops vs thin curves.</p>
-      </div>
-      <div class="atom-card">
-        <div class="atom-type even">Even &middot; rank-based</div>
-        <h4>Scaling exponent</h4>
-        <p>Hurst-like. Whether the trajectory is persistent, anti-persistent,
-        or a random walk in each pair's plane.</p>
-      </div>
+<!-- ═══ ABSTRACT ═══ -->
+<section class="section">
+  <div class="abstract">
+    <p>A machine under load moves along a coupled thermal, mechanical, and electrical
+    trajectory. We propose nine scalar descriptors — <em>atoms</em> — computed from the
+    joint trajectory of every channel pair. Eight are built from within-unit ranks and
+    are exactly invariant to any strictly monotone recalibration of each channel
+    separately. The ninth, the signed Lévy area, captures the arrow of time and is the
+    unique atom that changes sign under time reversal. On seven real industrial systems
+    (309 records) the atlas identifies the source system at <strong>99.4%</strong>
+    accuracy (CI [97.7, 100.0]) against 96.1% for per-channel marginals. Under
+    re-instrumentation the atlas holds at 99.0% while marginals fall to 80.3%. In
+    controlled simulated fleets of 48 machines, an autoencoder trained on raw telemetry
+    beats the atlas on clean data by 1.5× but collapses to chance under
+    re-instrumentation; the atlas is numerically unchanged. The method requires a minimum
+    of approximately 10³ samples per window and does not improve short-horizon forward
+    prediction, where the identity is redundant with the state history. Its value is in
+    identification, auditing, and transfer rather than in accuracy.</p>
+  </div>
+</section>
+
+<!-- ═══ THE IDEA ═══ -->
+<section class="section">
+  <h2 class="title">The idea: route on geometry, not on raw state</h2>
+  <p>A servo joint accelerating a payload dissipates ohmic heat into a winding whose
+  rising temperature derates the torque available to the next command — on a thermal
+  time constant three decades slower than the control loop that issued it. Watch any one
+  channel and you see a line wandering. Watch two against each other and you see a
+  <em>shape</em>, and the shape is where the coupling lives.</p>
+  <p>Each channel pair gets nine atoms. The whole array over all pairs is one unit's
+  <strong>atlas</strong>. Nine quantiles of each atom across pairs gives a signature of
+  fixed length whatever the channel count — which is how a 12-channel motor and a
+  24-channel turbofan can be compared at all.</p>
+
+  <div class="atom-grid">
+    <div class="atom">
+      <div class="tag even">Even · rank-based</div>
+      <h4>Spearman ρ</h4>
+      <p>Monotone association. How strongly one channel tracks another, regardless of scale.</p>
     </div>
-
-    <div class="callout green">
-      <p><strong>Why eight vs one?</strong> Any statistic built from the joint
-      distribution of simultaneous values is unchanged by time reversal, because
-      reversal only permutes the samples. That covers correlation, mutual
-      information, distance correlation, and coherence magnitude. The signed
-      L&eacute;vy area is the unique atom that changes sign under reversal
-      &mdash; verified to 4.7&times;10<sup>&minus;14</sup> on 40 real motor
-      sessions. The vocabulary splits into an even sector and a one-dimensional
-      odd sector.</p>
+    <div class="atom">
+      <div class="tag even">Even · rank-based</div>
+      <h4>Distance correlation</h4>
+      <p>Functional strength. Detects any dependence, linear or not. Zero iff independent.</p>
+    </div>
+    <div class="atom">
+      <div class="tag even">Even · rank-based</div>
+      <h4>Hoeffding D</h4>
+      <p>Nonlinearity gap. How far the joint distribution deviates from independence.</p>
+    </div>
+    <div class="atom">
+      <div class="tag even">Even · rank-based</div>
+      <h4>Copula asymmetry</h4>
+      <p>Whether dependence is stronger in one tail than the other.</p>
+    </div>
+    <div class="atom">
+      <div class="tag odd">Odd · time-ordered</div>
+      <h4>Signed Lévy area</h4>
+      <p><strong>The arrow of time.</strong> Flips sign under time reversal. The one atom a correlation matrix cannot reach.</p>
+    </div>
+    <div class="atom">
+      <div class="tag even">Even · rank-based</div>
+      <h4>Jump share</h4>
+      <p>Fraction of trajectory spent in jumps rather than smooth motion.</p>
+    </div>
+    <div class="atom">
+      <div class="tag even">Even · rank-based</div>
+      <h4>Timescale ratio</h4>
+      <p>Power distribution across frequencies. Separates slow thermal drift from fast oscillation.</p>
+    </div>
+    <div class="atom">
+      <div class="tag even">Even · rank-based</div>
+      <h4>Support occupancy</h4>
+      <p>How much of the rank-plane the trajectory actually visits.</p>
+    </div>
+    <div class="atom">
+      <div class="tag even">Even · rank-based</div>
+      <h4>Scaling exponent</h4>
+      <p>Hurst-like. Whether the trajectory is persistent, anti-persistent, or a random walk.</p>
     </div>
   </div>
-</div></section>
+</section>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 02 — Invariance                                             -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>02</span></div>
-  <div>
-    <h2>Recalibration invariance is exact, not approximate</h2>
-    <p>Replace a sensor, rescale a channel, apply any strictly increasing warp
-    to each channel independently: the atlas does not move. This is not a
-    trained property or an empirical regularity. It follows from the construction
-    &mdash; eight of nine atoms are computed on within-unit ranks, and monotone
-    transforms preserve ranks exactly.</p>
-
-    <div class="fig">
-      <div class="figwell"><img src="figures/fig1_concept.png" alt="Concept figure showing the nine atoms and recalibration invariance"></div>
-      <figcaption><span class="figlabel">Fig 1.</span> <b>The atoms and their
-      invariance.</b> Left: four exemplar channel pairs from a UR5e motor
-      session, each showing a different coupling geometry. Right: the full atlas
-      as a heatmap. Under an independent monotone warp on every channel, the
-      atlas is unchanged to machine precision while per-channel marginal
-      statistics collapse.</figcaption>
+<!-- ═══ INVARIANCE ═══ -->
+<section class="section">
+  <h2 class="title">Recalibration invariance is exact</h2>
+  <p>Replace a sensor, rescale a channel, apply any strictly increasing warp to each
+  channel independently: the atlas does not move. This is not a trained property — it
+  follows from the construction. Eight of nine atoms are computed on within-unit ranks,
+  and monotone transforms preserve ranks exactly. Verified to machine precision
+  (0.00×10⁰ change) on all three robotic platforms.</p>
+  <div class="impact-grid">
+    <div class="impact">
+      <img class="impact-img" src="figures/fig1_concept.png" alt="Nine atoms and recalibration invariance">
+      <div class="impact-body">
+        <div class="impact-num">Fig 1 — The atoms</div>
+        <p>Four exemplar channel pairs showing different coupling geometries. The full atlas as a heatmap. Under monotone warp: unchanged to machine precision.</p>
+      </div>
     </div>
-
-    <div class="tablewrap">
-      <h4>Invariance verification (real motor data)</h4>
-      <table>
-        <thead><tr>
-          <th>Platform</th><th>Atlas change</th><th>Marginals change</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>UR5e</td><td class="num">0.00&times;10<sup>0</sup></td><td class="num">0.00&times;10<sup>0</sup></td></tr>
-          <tr><td>Panda</td><td class="num">0.00&times;10<sup>0</sup></td><td class="num">0.00&times;10<sup>0</sup></td></tr>
-          <tr><td>iiwa14</td><td class="num">0.00&times;10<sup>0</sup></td><td class="num">0.00&times;10<sup>0</sup></td></tr>
-        </tbody>
-        <caption>Both are exactly zero on continuous data, because ranks are
-        unchanged by monotone transforms. The difference emerges when the warp
-        is applied to held-out data that the atlas was not built from.</caption>
-      </table>
+    <div class="impact">
+      <img class="impact-img" src="figures/figED1_parity.png" alt="Time reversal parity">
+      <div class="impact-body">
+        <div class="impact-num">Fig ED1 — Parity under time reversal</div>
+        <p>Eight atoms overlap perfectly after reversal (even sector). The Lévy area flips sign (odd sector) to 4.7×10⁻¹⁴.</p>
+      </div>
     </div>
   </div>
-</div></section>
+</section>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 03 — Seven real systems                                     -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>03</span></div>
-  <div>
-    <h2>Seven real industrial systems, 309 records</h2>
-    <p>Nothing simulated except the recalibration warp. The atlas identifies
-    which system a record came from at <strong>99.4%</strong> accuracy (CI
-    [97.7, 100.0]) against 96.1% for per-channel marginals and 86.4% for
-    Spearman correlation. Under re-instrumentation, the atlas holds at 99.0%
-    while marginals fall to 80.3%.</p>
+<!-- ═══ SEVEN SYSTEMS ═══ -->
+<section class="section">
+  <h2 class="title">Seven real industrial systems, 309 records</h2>
+  <p>Nothing simulated except the recalibration warp. The atlas identifies which system
+  a record came from at 99.4% against 96.1% for marginals and 86.4% for Spearman
+  correlation. Under re-instrumentation: atlas 99.0% vs marginals 80.3%.</p>
 
-    <div class="systems">
-      <div class="sys">
-        <div class="kind">Turbomachinery</div>
-        <div class="name">Gas turbine</div>
-        <dl>
-          <div><span>Channels</span><b>11</b></div>
-          <div><span>Records</span><b>~40</b></div>
-          <div><span>Years</span><b>5</b></div>
-          <div><span>Real drift</span><b>Yes</b></div>
-        </dl>
-      </div>
-      <div class="sys">
-        <div class="kind">Fluid + thermal</div>
-        <div class="name">Hydraulic rig</div>
-        <dl>
-          <div><span>Channels</span><b>17</b></div>
-          <div><span>Records</span><b>~50</b></div>
-          <div><span>Fault labels</span><b>4 components</b></div>
-          <div><span>PLC-controlled</span><b>Yes</b></div>
-        </dl>
-      </div>
-      <div class="sys">
-        <div class="kind">Power grid</div>
-        <div class="name">Synchrophasor PMU</div>
-        <dl>
-          <div><span>Channels</span><b>~24</b></div>
-          <div><span>Records</span><b>~40</b></div>
-          <div><span>Grid infra</span><b>Yes</b></div>
-        </dl>
-      </div>
-      <div class="sys">
-        <div class="kind">Power grid</div>
-        <div class="name">Transformer (ETT)</div>
-        <dl>
-          <div><span>Channels</span><b>7</b></div>
-          <div><span>Records</span><b>~30</b></div>
-          <div><span>Oil temp + load</span><b>Real</b></div>
-        </dl>
-      </div>
-      <div class="sys">
-        <div class="kind">Turbomachinery</div>
-        <div class="name">Wind farm SCADA</div>
-        <dl>
-          <div><span>Channels</span><b>4</b></div>
-          <div><span>Records</span><b>~40</b></div>
-          <div><span>Thinnest</span><b>System</b></div>
-        </dl>
-      </div>
-      <div class="sys">
-        <div class="kind">Motor bench</div>
-        <div class="name">PMSM 52 kW</div>
-        <dl>
-          <div><span>Channels</span><b>12</b></div>
-          <div><span>Sessions</span><b>40 / 69</b></div>
-          <div><span>Open loop</span><b>Rich excitation</b></div>
-        </dl>
-      </div>
-      <div class="sys">
-        <div class="kind">Pneumatic + pumping</div>
-        <div class="name">SKAB + MetroPT</div>
-        <dl>
-          <div><span>Channels</span><b>8&ndash;15</b></div>
-          <div><span>Records</span><b>~60</b></div>
-          <div><span>Anomaly detect</span><b>Benchmark</b></div>
-        </dl>
-      </div>
+  <div class="systems">
+    <div class="sys">
+      <div class="kind">Turbomachinery</div>
+      <div class="name">Gas turbine</div>
+      <dl>
+        <div><span>Channels</span><b>11</b></div>
+        <div><span>Years</span><b>5</b></div>
+        <div><span>Real drift</span><b>Yes</b></div>
+      </dl>
     </div>
-
-    <div class="fig">
-      <div class="figwell"><img src="figures/fig4_real.png" alt="Real systems benchmark results"></div>
-      <figcaption><span class="figlabel">Fig 2.</span> <b>Seven-system
-      benchmark.</b> Atlas 99.4% (CI [97.7, 100.0]) vs marginals 96.1% (CI
-      [94.5, 98.2]) vs Spearman 86.4%. Under re-instrumentation: atlas 99.0%
-      vs marginals 80.3%. Bootstrap CIs via 70% subsampling, 500
-      iterations.</figcaption>
+    <div class="sys">
+      <div class="kind">Fluid + thermal</div>
+      <div class="name">Hydraulic rig</div>
+      <dl>
+        <div><span>Channels</span><b>17</b></div>
+        <div><span>Fault labels</span><b>4</b></div>
+        <div><span>PLC-controlled</span><b>Yes</b></div>
+      </dl>
     </div>
-
-    <div class="tablewrap">
-      <h4>Fault diagnosis — hydraulic rig (atlas CIs via subsampling)</h4>
-      <table>
-        <thead><tr>
-          <th>Component</th><th>Atlas</th><th>Atlas CI</th><th>Marginals</th>
-          <th>Under warp (atlas)</th><th>Under warp (marginals)</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>Cooler</td><td class="num">96.4%</td><td class="num">[89.7, 98.7]</td><td class="num">94.7%</td><td class="num">96.4%</td><td class="num pm">73.6%</td></tr>
-          <tr><td>Valve</td><td class="num">97.8%</td><td class="num">[93.2, 99.5]</td><td class="num">98.9%</td><td class="num">97.8%</td><td class="num pm">82.1%</td></tr>
-          <tr><td>Pump</td><td class="num">73.6%</td><td class="num">[62.8, 82.4]</td><td class="num">81.6%</td><td class="num">73.6%</td><td class="num pm">55.5%</td></tr>
-          <tr><td>Accumulator</td><td class="num">89.5%</td><td class="num">[80.3, 95.1]</td><td class="num">90.4%</td><td class="num">89.5%</td><td class="num pm">68.4%</td></tr>
-        </tbody>
-        <caption>For faults that change how channels relate (cooler, valve,
-        accumulator), the atlas matches or exceeds marginals and is unmoved by
-        re-instrumentation. For faults that shift absolute values (pump),
-        marginals are stronger &mdash; which is the correct design rule.</caption>
-      </table>
+    <div class="sys">
+      <div class="kind">Power grid</div>
+      <div class="name">Synchrophasor PMU</div>
+      <dl>
+        <div><span>Channels</span><b>~24</b></div>
+        <div><span>Grid infra</span><b>Yes</b></div>
+      </dl>
+    </div>
+    <div class="sys">
+      <div class="kind">Power grid</div>
+      <div class="name">Transformer (ETT)</div>
+      <dl>
+        <div><span>Channels</span><b>7</b></div>
+        <div><span>Oil temp + load</span><b>Real</b></div>
+      </dl>
+    </div>
+    <div class="sys">
+      <div class="kind">Turbomachinery</div>
+      <div class="name">Wind farm SCADA</div>
+      <dl>
+        <div><span>Channels</span><b>4</b></div>
+        <div><span>Thinnest</span><b>System</b></div>
+      </dl>
+    </div>
+    <div class="sys">
+      <div class="kind">Motor bench</div>
+      <div class="name">PMSM 52 kW</div>
+      <dl>
+        <div><span>Channels</span><b>12</b></div>
+        <div><span>Sessions</span><b>40/69</b></div>
+        <div><span>Open loop</span><b>Rich</b></div>
+      </dl>
+    </div>
+    <div class="sys">
+      <div class="kind">Pneumatic + pumping</div>
+      <div class="name">SKAB + MetroPT</div>
+      <dl>
+        <div><span>Channels</span><b>8–15</b></div>
+        <div><span>Anomaly</span><b>Benchmark</b></div>
+      </dl>
     </div>
   </div>
-</div></section>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 04 — Fleet control experiment                              -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>04</span></div>
-  <div>
-    <h2>The controlled fleet experiment</h2>
-    <p>Simulated fleets of 48 machines per platform (UR5e, Panda, iiwa14), each
-    with independent physical parameters. Three fleet types isolate the two axes
-    of machine identity:</p>
-    <ul>
-      <li><strong>Level fleet</strong> &mdash; machines differ only in absolute
-      magnitude (payload, thermal resistance). The atlas should fail here.</li>
-      <li><strong>Shape fleet</strong> &mdash; machines differ only in coupling
-      geometry. The atlas should succeed here.</li>
-      <li><strong>All fleet</strong> &mdash; machines differ in both. Both
-      representations see signal.</li>
-    </ul>
-
-    <div class="fig">
-      <div class="figwell"><img src="figures/fig5_fleet_control.png" alt="Fleet control experiment across three platforms"></div>
-      <figcaption><span class="figlabel">Fig 3.</span> <b>Fleet control, 3
-      platforms &times; 3 fleet types.</b> The atlas is at or below chance on
-      every level fleet (it cannot see magnitude). The autoencoder wins on clean
-      data but collapses to chance under re-instrumentation. The atlas is
-      numerically unchanged before and after warp.</figcaption>
+  <div class="impact-grid">
+    <div class="impact">
+      <img class="impact-img" src="figures/fig4_real.png" alt="Seven-system benchmark">
+      <div class="impact-body">
+        <div class="impact-num">Fig 2 — Seven-system benchmark</div>
+        <p>Atlas 99.4% (CI [97.7, 100.0]) vs marginals 96.1%. Under re-instrumentation: atlas 99.0% vs marginals 80.3%.</p>
+      </div>
     </div>
-
-    <div class="tablewrap">
-      <h4>Controlled fleet results (chance 2.1%, 48 units per fleet)</h4>
-      <table>
-        <thead><tr>
-          <th>Platform</th><th>Fleet</th><th>Atlas</th><th>Atlas warped</th>
-          <th>AE clean</th><th>AE warped</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>UR5e</td><td>level</td><td class="num">6.2% (ns)</td><td class="num">6.2%</td><td class="num">8.3%</td><td class="num">2.1%</td></tr>
-          <tr><td>UR5e</td><td>shape</td><td class="num"><b>10.4%</b> (p=.003)</td><td class="num">10.4%</td><td class="num">4.2%</td><td class="num">2.1%</td></tr>
-          <tr><td>UR5e</td><td>both</td><td class="num"><b>14.6%</b> (p&lt;.001)</td><td class="num">14.6%</td><td class="num">37.5%</td><td class="num">4.2%</td></tr>
-          <tr><td>Panda</td><td>level</td><td class="num">2.1% (ns)</td><td class="num">2.1%</td><td class="num">10.4%</td><td class="num">2.1%</td></tr>
-          <tr class="sig"><td>Panda</td><td>shape</td><td class="num"><b>20.8%</b> (p&lt;.001)</td><td class="num">20.8%</td><td class="num">41.7%</td><td class="num">0.0%</td></tr>
-          <tr class="sig"><td>Panda</td><td>both</td><td class="num"><b>39.6%</b> (p&lt;.001)</td><td class="num">39.6%</td><td class="num">58.3%</td><td class="num">2.1%</td></tr>
-          <tr><td>iiwa14</td><td>level</td><td class="num">0.0% (ns)</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td></tr>
-          <tr><td>iiwa14</td><td>shape</td><td class="num">6.2% (ns)</td><td class="num">6.2%</td><td class="num">4.2%</td><td class="num">2.1%</td></tr>
-          <tr><td>iiwa14</td><td>both</td><td class="num"><b>12.5%</b> (p&lt;.001)</td><td class="num">12.5%</td><td class="num">4.2%</td><td class="num">2.1%</td></tr>
-        </tbody>
-        <caption>Bold: statistically significant (p&lt;0.05). ns: not
-        significant. The AE wins on clean data (58.3% vs 39.6% on Panda all) but
-        collapses to 2.1% under warp. The atlas is numerically identical before
-        and after.</caption>
-      </table>
-    </div>
-
-    <div class="callout hot">
-      <p><strong>The headline:</strong> An autoencoder trained on raw telemetry
-      beats the atlas on clean data by 1.5&times;. Apply an independent monotone
-      warp to every channel and the AE collapses to chance while the atlas is
-      numerically unchanged. This is not a failure of the AE &mdash; it is a
-      fact about what absolute-magnitude features encode.</p>
+    <div class="impact">
+      <img class="impact-img" src="figures/fig2_results.png" alt="Main results">
+      <div class="impact-body">
+        <div class="impact-num">Fig 3 — Atlas vs learned baselines</div>
+        <p>AE wins on clean data by 1.5×. Under warp: AE collapses to chance, atlas unchanged.</p>
+      </div>
     </div>
   </div>
-</div></section>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 05 — Time reversal parity                                   -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>05</span></div>
-  <div>
-    <h2>The parity argument: why correlation cannot substitute</h2>
-    <p>Reverse a record end to end. A lag becomes a lead, so any descriptor that
-    detects lag must change. Almost every relational statistic in use is built
-    from the joint distribution of simultaneous values &mdash; and that
-    distribution is unchanged by reversal, because reversal only permutes the
-    samples. The result is an exact decomposition of the atom vocabulary into
-    even and odd sectors.</p>
+  <div class="tablescroll">
+  <table>
+    <thead><tr><th>Component</th><th>Atlas</th><th>Atlas CI</th><th>Marginals</th><th>Warp (atlas)</th><th>Warp (marginals)</th></tr></thead>
+    <tbody>
+      <tr><td>Cooler</td><td class="win">96.4%</td><td>[89.7, 98.7]</td><td>94.7%</td><td>96.4%</td><td class="bad">73.6%</td></tr>
+      <tr><td>Valve</td><td class="win">97.8%</td><td>[93.2, 99.5]</td><td>98.9%</td><td>97.8%</td><td class="bad">82.1%</td></tr>
+      <tr><td>Pump</td><td>73.6%</td><td>[62.8, 82.4]</td><td class="win">81.6%</td><td>73.6%</td><td class="bad">55.5%</td></tr>
+      <tr><td>Accumulator</td><td class="win">89.5%</td><td>[80.3, 95.1]</td><td>90.4%</td><td>89.5%</td><td class="bad">68.4%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="table-note">Hydraulic rig fault diagnosis. For relational faults (cooler, valve, accumulator): atlas matches marginals and is unmoved by warp. For level faults (pump): marginals stronger — the correct design rule.</div>
+</section>
 
-    <div class="two-col">
+<!-- ═══ FLEET CONTROL ═══ -->
+<section class="section">
+  <h2 class="title">The controlled fleet experiment</h2>
+  <p>Simulated fleets of 48 machines per platform (UR5e, Panda, iiwa14), each with
+  independent physical parameters. Three fleet types isolate the two axes of machine
+  identity: <strong>level</strong> (magnitude only — atlas should fail),
+  <strong>shape</strong> (coupling only — atlas should succeed), <strong>both</strong>.</p>
+
+  <div class="impact-grid">
+    <div class="impact">
+      <img class="impact-img" src="figures/fig5_fleet_control.png" alt="Fleet control">
+      <div class="impact-body">
+        <div class="impact-num">Fig 4 — Fleet control, 3 platforms × 3 types</div>
+        <p>Atlas at chance on every level fleet. AE wins clean, collapses under warp. Atlas numerically identical before and after.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tablescroll">
+  <table>
+    <thead><tr><th>Platform</th><th>Fleet</th><th>Atlas</th><th>Atlas warped</th><th>AE clean</th><th>AE warped</th></tr></thead>
+    <tbody>
+      <tr><td>UR5e</td><td>level</td><td>6.2% (ns)</td><td>6.2%</td><td>8.3%</td><td>2.1%</td></tr>
+      <tr><td>UR5e</td><td>shape</td><td class="win">10.4% (p=.003)</td><td>10.4%</td><td>4.2%</td><td>2.1%</td></tr>
+      <tr><td>UR5e</td><td>both</td><td class="win">14.6% (p&lt;.001)</td><td>14.6%</td><td>37.5%</td><td>2.1%</td></tr>
+      <tr><td>Panda</td><td>level</td><td>2.1% (ns)</td><td>2.1%</td><td>10.4%</td><td>2.1%</td></tr>
+      <tr><td>Panda</td><td>shape</td><td class="win">20.8% (p&lt;.001)</td><td>20.8%</td><td>41.7%</td><td>0.0%</td></tr>
+      <tr><td>Panda</td><td>both</td><td class="win">39.6% (p&lt;.001)</td><td>39.6%</td><td>58.3%</td><td>2.1%</td></tr>
+      <tr><td>iiwa14</td><td>level</td><td>0.0% (ns)</td><td>0.0%</td><td>0.0%</td><td>0.0%</td></tr>
+      <tr><td>iiwa14</td><td>shape</td><td>6.2% (ns)</td><td>6.2%</td><td>4.2%</td><td>2.1%</td></tr>
+      <tr><td>iiwa14</td><td>both</td><td class="win">12.5% (p&lt;.001)</td><td>12.5%</td><td>4.2%</td><td>2.1%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="table-note">Chance 2.1%. Bold = significant (p&lt;0.05). The AE wins on clean data (58.3% vs 39.6% on Panda all) but collapses to 2.1% under warp. The atlas is numerically identical before and after.</div>
+</section>
+
+<!-- ═══ PARITY ═══ -->
+<section class="section">
+  <h2 class="title">The parity argument: why correlation cannot substitute</h2>
+  <p>Reverse a record end to end. A lag becomes a lead. Any statistic built from the
+  joint distribution of simultaneous values is unchanged — reversal only permutes the
+  samples. The Lévy area satisfies \(\mathcal{R}(\mathrm{levy}) = -\mathrm{levy}\) to
+  \(4.7 \times 10^{-14}\). The vocabulary splits into an even sector (8 atoms) and a
+  one-dimensional odd sector (1 atom).</p>
+  <p>A machine's defining multi-physics behaviour is a lag with a direction — torque
+  heating a winding that then derates the torque. That lag is precisely the content of
+  the odd sector. Every descriptor in the standard relational toolkit lives in the even
+  sector.</p>
+</section>
+
+<!-- ═══ WHAT IT CARRIES ═══ -->
+<section class="section">
+  <h2 class="title">What the atlas carries — and what it does not</h2>
+  <div class="tablescroll">
+  <table>
+    <thead><tr><th>Target</th><th>Atlas R²</th><th>Marginals R²</th><th>Reading</th></tr></thead>
+    <tbody>
+      <tr><td>Payload</td><td>0.61</td><td class="win">0.99</td><td class="muted">Level property — atlas sees it weakly</td></tr>
+      <tr><td>Bearing friction</td><td class="win">0.36</td><td class="bad">−5.49</td><td>Atlas carries it; marginals diverge</td></tr>
+      <tr><td>Ambient temperature</td><td class="bad">−0.05</td><td class="win">0.99</td><td class="muted">Atlas is blind to workload</td></tr>
+      <tr><td>Duty cycle</td><td class="bad">0.04</td><td class="win">0.82</td><td class="muted">Atlas is blind to workload</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="table-note">The workload control: duty cycle and ambient temperature are properties of the task, not the machine. A representation that encodes them is a duty detector wearing the costume of a machine fingerprint.</div>
+</section>
+
+<!-- ═══ NEGATIVE RESULTS ═══ -->
+<section class="section">
+  <h2 class="title">What the atlas cannot do</h2>
+  <ul class="findings">
+    <li class="finding">
+      <div><span class="verdict v-refuted">Fails</span></div>
       <div>
-        <h3>Even sector (8 atoms)</h3>
-        <p>Correlation, mutual information, distance correlation, coherence
-        magnitude, copula-based dependence, and the geometry of the joint
-        support are all functionals of the simultaneous distribution. They
-        reproduce themselves under time reversal to between 10<sup>&minus;15</sup>
-        and 10<sup>&minus;11</sup>.</p>
+        <h4>Short-horizon forward prediction</h4>
+        <p>Conditioning a pretrained model on the atlas code does not improve prediction error (0.168 vs 0.129 for no conditioning). Neither does conditioning on true physical parameters (0.160). The identity is redundant when the model already sees the state history.</p>
       </div>
+    </li>
+    <li class="finding">
+      <div><span class="verdict v-refuted">Fails</span></div>
       <div>
-        <h3>Odd sector (1 atom)</h3>
-        <p>The signed L&eacute;vy area satisfies
-        levy(&#8499;<em>x</em>) = &minus;levy(<em>x</em>) to
-        4.7&times;10<sup>&minus;14</sup>. It is the unique atom that carries
-        the arrow of time, and it is exactly the information the standard
-        toolkit cannot reach.</p>
+        <h4>Gas turbine drift separation</h4>
+        <p>On 5 years of genuine asset ageing, the atlas centroid shift (0.819) was essentially the same as marginals (0.817). Recalibration and ageing are different things.</p>
       </div>
-    </div>
-
-    <div class="fig">
-      <div class="figwell"><img src="figures/figED1_parity.png" alt="Time reversal parity histogram"></div>
-      <figcaption><span class="figlabel">Fig ED1.</span> <b>Parity under time
-      reversal.</b> Histograms of atom values before and after reversal on 40
-      real motor sessions. Eight atoms overlap perfectly (even sector). The
-      L&eacute;vy area flips sign (odd sector).</figcaption>
-    </div>
-
-    <div class="callout">
-      <p><strong>Why this matters:</strong> A machine's defining multi-physics
-      behaviour is a lag with a direction &mdash; torque heating a winding that
-      then derates the torque. That lag is precisely the content of the odd
-      sector. Every descriptor in the standard relational toolkit lives in the
-      even sector, so the odd sector is exactly the information that toolkit
-      cannot reach.</p>
-    </div>
-  </div>
-</div></section>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 06 — What the atlas carries                                 -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>06</span></div>
-  <div>
-    <h2>What the atlas carries &mdash; and what it does not</h2>
-    <p>A decoder experiment asks: given the atlas code, what can you recover
-    about the machine?</p>
-
-    <div class="tablewrap">
-      <h4>Decoder R&sup2; from atlas vs per-channel marginals</h4>
-      <table>
-        <thead><tr>
-          <th>Target</th><th>Atlas</th><th>Marginals</th><th>Interpretation</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>Unit identity</td><td class="num">0.61</td><td class="num">0.99</td><td class="pm">Both carry it; marginals are stronger</td></tr>
-          <tr><td>Payload</td><td class="num">0.61</td><td class="num">0.99</td><td class="pm">Level property &mdash; atlas sees it weakly</td></tr>
-          <tr><td>Bearing friction</td><td class="num">0.36</td><td class="num pm">&minus;5.49</td><td>Atlas carries it; marginals diverge</td></tr>
-          <tr><td>Ambient temperature</td><td class="num pm">&minus;0.05</td><td class="num">0.99</td><td class="pm">Atlas is blind to workload</td></tr>
-          <tr><td>Duty cycle</td><td class="num pm">0.04</td><td class="num">0.82</td><td class="pm">Atlas is blind to workload</td></tr>
-        </tbody>
-        <caption>The atlas encodes coupling physics, not workload. Marginals
-        encode both &mdash; which means they will fail when the task
-        changes.</caption>
-      </table>
-    </div>
-
-    <div class="callout green">
-      <p><strong>The workload control:</strong> Duty cycle and ambient temperature
-      are properties of the task, not of the machine. The atlas decodes ambient
-      temperature at R&sup2; = &minus;0.05 (no better than predicting the mean)
-      while marginals reach 0.99. A representation that quietly encodes the task
-      will pass every identification benchmark and fail in the field.</p>
-    </div>
-  </div>
-</div></section>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 07 — Deep baselines                                         -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>07</span></div>
-  <div>
-    <h2>Against learned baselines</h2>
-    <p>The comparison that matters is not atlas vs correlation &mdash; it is
-    atlas vs a model that can learn any representation from the raw telemetry.
-    The prediction is that a learned model will beat the atlas on clean data
-    and collapse equally under re-instrumentation, because absolute-magnitude
-    features are what both the model and the warp act on.</p>
-
-    <div class="fig">
-      <div class="figwell"><img src="figures/fig2_results.png" alt="Main results comparison"></div>
-      <figcaption><span class="figlabel">Fig 4.</span> <b>Atlas vs learned
-      baselines.</b> The autoencoder (256-32-256 MLP) wins on clean data by
-      1.5&times; on the Panda all fleet. Under re-instrumentation it collapses
-      to chance. LSTM and transformer baselines do not beat chance at n=24
-      units, showing the atlas's advantage on small fleets.</figcaption>
-    </div>
-
-    <div class="callout">
-      <p><strong>Honest limitation:</strong> The autoencoder is deliberately
-      simple (256-32-256 MLP). A recurrent or transformer-based forecaster would
-      almost certainly beat the atlas on clean-data identification. The
-      prediction is that it would collapse equally under re-instrumentation,
-      because the invariance gap is architectural: the atlas computes on ranks,
-      which are warp-invariant by construction; any model that sees raw values
-      inherits their sensitivity.</p>
-    </div>
-  </div>
-</div></section>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 08 — The negative results                                   -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>08</span></div>
-  <div>
-    <h2>What the atlas cannot do</h2>
-    <p>Transparent limitations are a feature, not a concession. Three things
-    the atlas does not buy:</p>
-
-    <ul class="findings">
-      <li class="finding f-refuted">
-        <div><span class="verdict">Fails</span></div>
-        <div>
-          <h4>Short-horizon forward prediction</h4>
-          <p>Conditioning a pretrained forward model on the unit's atlas code
-          does not improve prediction error (0.168 vs 0.129 for no conditioning).
-          Neither does conditioning on true physical parameters (0.160). The
-          identity is redundant when the model already sees the state and its
-          causal history.</p>
-        </div>
-      </li>
-      <li class="finding f-refuted">
-        <div><span class="verdict">Fails</span></div>
-        <div>
-          <h4>Gas turbine drift separation</h4>
-          <p>On 5 years of genuine asset ageing, the atlas centroid shift (0.819)
-          was essentially the same as marginals (0.817). Recalibration and
-          ageing are different things &mdash; the atlas handles the former but
-          does not distinguish itself on the latter.</p>
-        </div>
-      </li>
-      <li class="finding f-scoped">
-        <div><span class="verdict">Scoped</span></div>
-        <div>
-          <h4>Identifying distinct physical machines</h4>
-          <p>On simulated fleets of genuinely distinct machines, the atlas gives
-          6&ndash;15% against 1.2% chance &mdash; statistically indistinguishable
-          from a per-channel baseline. What the real data supports is
-          distinguishing operating episodes of a machine, distinguishing kinds of
-          machine, and diagnosing faults.</p>
-        </div>
-      </li>
-      <li class="finding f-null">
-        <div><span class="verdict">Design rule</span></div>
-        <div>
-          <h4>Level faults (pump degradation)</h4>
-          <p>For faults that shift absolute values rather than coupling geometry,
-          per-channel marginals are the right tool. The atlas sees coupling, not
-          magnitude. The correct deployment is: atlas for relational faults,
-          marginals for level faults, both when the fault regime is unknown.</p>
-        </div>
-      </li>
-    </ul>
-
-    <div class="tablewrap">
-      <h4>Intrinsic dimension survey (10 systems)</h4>
-      <table>
-        <thead><tr>
-          <th>System</th><th>Drive regime</th><th>Channels</th><th>Live dim</th>
-          <th>d/n ratio</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>Panda robot</td><td>closed, repeated</td><td class="num">14</td><td class="num">3.19</td><td class="num">0.23</td></tr>
-          <tr><td>UR5e robot</td><td>closed, repeated</td><td class="num">10</td><td class="num">2.28</td><td class="num">0.23</td></tr>
-          <tr><td>SKAB</td><td>closed, free</td><td class="num">10</td><td class="num">2.28</td><td class="num">0.23</td></tr>
-          <tr><td>Hydraulic rig</td><td>closed, repeated</td><td class="num">14</td><td class="num">3.55</td><td class="num">0.25</td></tr>
-          <tr><td>Transformer</td><td>closed, free</td><td class="num">14</td><td class="num">5.36</td><td class="num">0.38</td></tr>
-          <tr><td>Gas turbine</td><td>closed, free</td><td class="num">11</td><td class="num">4.26</td><td class="num">0.39</td></tr>
-          <tr><td>Steel plant</td><td>closed, free</td><td class="num">7</td><td class="num">2.73</td><td class="num">0.39</td></tr>
-          <tr><td>Turbofan (sim)</td><td>closed, free</td><td class="num">24</td><td class="num">9.45</td><td class="num">0.39</td></tr>
-          <tr><td>PMSM bench</td><td>open, rich</td><td class="num">12</td><td class="num">5.72</td><td class="num">0.48</td></tr>
-          <tr><td>Wind farm</td><td>closed, free</td><td class="num">4</td><td class="num">2.63</td><td class="num">0.66</td></tr>
-        </tbody>
-        <caption>The ratio groups by drive regime: 0.23 for closed-loop
-        repeated programmes, 0.39 for closed-loop free duty, 0.60 for open-loop
-        rich excitation. Below d/n &asymp; 0.35, geometric methods have
-        something to work with.</caption>
-      </table>
-    </div>
-  </div>
-</div></section>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 09 — The real-drift experiment                              -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>09</span></div>
-  <div>
-    <h2>Real drift: 200&times; less movement</h2>
-    <p>The PMSM bench has 69 sessions from one machine. Splitting into early
-    (sessions 1&ndash;34) and late (sessions 35&ndash;69) gives a real
-    sensor-ageing proxy without synthetic warps. The atlas centroid shifts
-    <strong>0.63</strong> while marginals shift <strong>126.3</strong> &mdash;
-    a 200&times; difference &mdash; yet both identify early vs late at the same
-    accuracy (6.1%).</p>
-
-    <div class="callout">
-      <p><strong>What this means:</strong> The atlas tracks relational physics
-      while being immune to the magnitude drift that dominates the marginals.
-      The marginals move 200&times; more because they encode absolute levels,
-      which drift with sensor ageing. The atlas encodes coupling geometry, which
-      does not.</p>
-    </div>
-  </div>
-</div></section>
-
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- STAGE 10 — Practical deployment                                   -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<section class="stage"><div class="wrap">
-  <div class="stagenum">Stage<span>10</span></div>
-  <div>
-    <h2>When to deploy what</h2>
-
-    <div class="two-col">
+    </li>
+    <li class="finding">
+      <div><span class="verdict v-scoped">Scoped</span></div>
       <div>
-        <h3>Use the atlas when</h3>
-        <ul>
-          <li>Sensors may be replaced or recalibrated</li>
-          <li>The fault changes how channels relate (cooler, valve, bearing)</li>
-          <li>You need a representation immune to drift</li>
-          <li>The fleet has few units (atlas simplicity is an advantage)</li>
-          <li>You need to distinguish operating episodes or machine kinds</li>
-        </ul>
+        <h4>Identifying distinct physical machines</h4>
+        <p>On simulated fleets of genuinely distinct machines: 6–15% against 1.2% chance — indistinguishable from a per-channel baseline. What the real data supports is distinguishing operating episodes and machine kinds.</p>
       </div>
+    </li>
+    <li class="finding">
+      <div><span class="verdict v-design">Design rule</span></div>
       <div>
-        <h3>Use per-channel statistics when</h3>
-        <ul>
-          <li>The fault shifts absolute values (pump degradation, load change)</li>
-          <li>You need workload or duty-cycle information</li>
-          <li>Short records (&lt;10<sup>3</sup> samples) limit atom computation</li>
-          <li>Ambient temperature or payload recovery is the goal</li>
-          <li>You need the strongest possible identification on clean data</li>
-        </ul>
+        <h4>Level faults (pump degradation)</h4>
+        <p>For faults that shift absolute values rather than coupling geometry, per-channel marginals are the right tool. Atlas for relational faults, marginals for level faults, both when the fault regime is unknown.</p>
       </div>
-    </div>
+    </li>
+  </ul>
+</section>
 
-    <div class="callout green">
-      <p><strong>The screening rule:</strong> Compute the intrinsic dimension
-      ratio d/n (live channels over total channels) from the TwoNN estimator.
-      Below 0.35, geometric methods have something to work with. This costs
-      seconds, needs no labels, and should be step zero before building any
-      atlas.</p>
-    </div>
-  </div>
-</div></section>
+<!-- ═══ REAL DRIFT ═══ -->
+<section class="section">
+  <h2 class="title">Real drift: 200× less movement</h2>
+  <p>The PMSM bench has 69 sessions from one machine. Splitting into early (1–34) and
+  late (35–69) gives a real sensor-ageing proxy without synthetic warps. The atlas
+  centroid shifts <strong>0.63</strong> while marginals shift <strong>126.3</strong> —
+  a 200× difference — yet both identify early vs late at the same accuracy (6.1%).</p>
+  <p>The atlas tracks relational physics while being immune to the magnitude drift that
+  dominates the marginals.</p>
+</section>
 
-</main>
+<!-- ═══ INTRINSIC DIMENSION ═══ -->
+<section class="section">
+  <h2 class="title">Intrinsic dimension survey</h2>
+  <div class="tablescroll">
+  <table>
+    <thead><tr><th>System</th><th>Regime</th><th>Channels</th><th>Live dim</th><th>d/n</th></tr></thead>
+    <tbody>
+      <tr><td>Panda robot</td><td>closed, repeated</td><td>14</td><td>3.19</td><td>0.23</td></tr>
+      <tr><td>UR5e robot</td><td>closed, repeated</td><td>10</td><td>2.28</td><td>0.23</td></tr>
+      <tr><td>SKAB</td><td>closed, free</td><td>10</td><td>2.28</td><td>0.23</td></tr>
+      <tr><td>Hydraulic rig</td><td>closed, repeated</td><td>14</td><td>3.55</td><td>0.25</td></tr>
+      <tr><td>Transformer</td><td>closed, free</td><td>14</td><td>5.36</td><td>0.38</td></tr>
+      <tr><td>Gas turbine</td><td>closed, free</td><td>11</td><td>4.26</td><td>0.39</td></tr>
+      <tr><td>Steel plant</td><td>closed, free</td><td>7</td><td>2.73</td><td>0.39</td></tr>
+      <tr><td>Turbofan (sim)</td><td>closed, free</td><td>24</td><td>9.45</td><td>0.39</td></tr>
+      <tr><td>PMSM bench</td><td>open, rich</td><td>12</td><td>5.72</td><td>0.48</td></tr>
+      <tr><td>Wind farm</td><td>closed, free</td><td>4</td><td>2.63</td><td>0.66</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="table-note">Ratio groups by drive regime: 0.23 for closed-loop repeated, 0.39 for closed-loop free, 0.60 for open-loop rich. Below d/n ≈ 0.35, geometric methods have something to work with.</div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<!-- FOOTER                                                            -->
-<!-- ═══════════════════════════════════════════════════════════════════ -->
-<footer><div class="wrap" style="display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:900px">
-  <div>
-    <p style="margin-bottom:8px"><b>Sehaj Singh</b></p>
-    <p>Independent Researcher</p>
-    <p style="margin-top:12px"><a href="https://github.com/sehajr-singhs/operating-atlas">GitHub</a> &middot;
-    <a href="https://huggingface.co/spaces/Sejibeji/operating-atlas">HF Space</a> &middot;
-    <a href="https://www.kaggle.com/sehajrsingh">Kaggle</a></p>
+<!-- ═══ REPRODUCE ═══ -->
+<section class="section">
+  <h2 class="title">Reproduce</h2>
+  <p style="margin-bottom:0.4rem">
+    <a href="https://github.com/sehajr-singhs/operating-atlas">GitHub repo</a> ·
+    <a href="https://www.kaggle.com/sehajrsingh">Kaggle kernels</a> ·
+    <a href="https://huggingface.co/spaces/Sejibeji/operating-atlas">HF Space</a>
+  </p>
+<pre>git clone https://github.com/sehajr-singhs/operating-atlas
+cd operating-atlas
+pip install -r requirements.txt
+
+# Generate atoms from a motor session
+python -m atlas.atoms --input data/robot_ur5e.npz
+
+# Run the 7-system benchmark on Kaggle
+kaggle kernels push -p kaggle_kernel/ioo_real2
+
+# Build the findings page
+python atlas/build_page.py</pre>
+  <p class="muted">All figures generated by matplotlib with Okabe-Ito colour-blind-safe
+  palette at 300 DPI. Paper compiled with pdflatex (22 pages, 44 references, zero
+  errors).</p>
+</section>
+
+</div>
+
+<footer>
+  <div class="container">
+    Sehaj Singh · Independent Researcher · 2026 ·
+    <a href="https://github.com/sehajr-singhs/operating-atlas">GitHub</a> ·
+    <a href="manuscript_NCS.pdf">Paper</a>
   </div>
-  <div>
-    <p>Code: <a href="https://github.com/sehajr-singhs/operating-atlas">github.com/sehajr-singhs/operating-atlas</a></p>
-    <p>Data: 7 real industrial systems + 3 simulated fleets (Kaggle kernels)</p>
-    <p>Figures: publication-quality, 300 DPI, Okabe-Ito palette</p>
-  </div>
-</div></footer>
+</footer>
 
 </body>
 </html>
