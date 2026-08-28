@@ -57,9 +57,9 @@ Practitioners already know this, which is why torque--speed envelopes and
 pressure--volume diagrams and Nyquist plots exist. What has not been done is to
 treat the whole set of such shapes, across every pair of channels and across
 operating conditions, as a single object attached to a specific machine, and to
-ask what that object is good for. That is what we do here. We call the array of
-shape descriptors for one machine its \emph{index of operations} (IOO), and
-the class-level structure shared across machines of the same kind its
+ask what that object is good for. That is what this paper does. The array of
+shape descriptors for one machine is its \emph{index of operations} (IOO), and
+the class-level structure shared across machines of the same kind is its
 \emph{index of operators}.
 
 The axes are not all equivalent, and most of this paper is about which axes
@@ -81,7 +81,7 @@ the machine, then an atlas built from one stretch of a machine's life should
 identify that same machine from a different stretch, run under a different
 workload, against a lineup of its siblings. If the shapes are merely a property
 of the duty cycle, the same test will fail while looking superficially healthy
-on any in-distribution accuracy metric. We therefore lead with identification
+on any in-distribution accuracy metric. The paper therefore leads with identification
 rather than with prediction, because identification is the claim that
 discriminates.
 
@@ -94,13 +94,11 @@ with real hardware is not identification at all but invariance: the
 description does not move when the instrumentation is changed, and the standard
 alternative does. That is what this paper is finally about.
 
-\subsection{Relation to existing work}
-
 Four literatures touch this and none of them do it.
 
 Path signatures from rough path theory give a canonical description of the
 shape of a multivariate path \cite{lyons1998,lyons2007,chevyrev2016}, and their
-depth-2 term is precisely the L\'evy area we use as one of nine atoms. Signatures
+depth-2 term is precisely the L\'evy area used as one of nine atoms. Signatures
 are the closest formal ancestor of this work. They are also combinatorially
 expensive in the channel count, they carry no notion of how single valued or
 how discontinuous a relation is, and they are not organised into a class
@@ -126,7 +124,7 @@ connectome fingerprinting identifies individual people from the pattern of
 correlations between brain regions, and reports that individual identity is
 diffusely spread over many edges \cite{finn2015}. Our construction is that
 idea for machines, with the crucial difference that a correlation is only the
-first of nine descriptors, and, as we show, by some distance not the most
+first of nine descriptors, and, as shown below, by some distance not the most
 informative one.
 
 \section{Results}
@@ -263,7 +261,7 @@ is applied to every channel of the held-out half.}
 \end{table}
 
 Three things in that table are worth separating, because only one of them is
-the headline and it is not the one we expected.
+the headline and it is not the one expected.
 
 Against the reduced form of our own construction the gain is large. A Spearman
 correlation matrix, which is what the relational feature literature actually
@@ -280,7 +278,7 @@ Against a genuinely strong baseline the in-distribution gain is small. Per
 channel means, standard deviations, skews and kurtoses reach $25.0\%$, within
 striking distance of the atlas at $32.5\%$, and any claim that relational
 geometry is necessary for identification in a stable fleet would be
-overstating what we measured.
+overstating what was measured.
 
 The separation appears when the instrumentation changes. Under an independent
 monotone warp per channel the atlas is unmoved at $32.5\%$, exactly, while the
@@ -381,14 +379,14 @@ produces the best single atom anywhere in this study, $\levy$ at $42.5\%$, and
 loses three quarters of it the moment the channels are relabelled. Cutting
 them in rank space gives the best full atlas at $30.0\%$ and barely moves.
 Neither dominates, and which one is right depends on a fact about the
-deployment rather than about the method. We therefore report the atlas and a
+deployment rather than about the method. The atlas and a
 separate calibration block---per-channel median and interquartile range---and
 leave the choice to the practitioner.
 
 The same tension has a sharp local form in the jump atom. Discontinuity is a
 statement about magnitudes, and rank space discards magnitudes, so the jump
 atom is the one place where the invariance requirement measurably costs
-measurement power. It is the weakest of the nine, and we report it as such.
+measurement power. It is the weakest of the nine, and reported as such.
 
 \subsection{The index of operators: classes}
 
@@ -434,7 +432,7 @@ Every error falls between the two fault conditions of the same pump rig, which
 is the one pair of classes sharing hardware, instrumentation and logging rate,
 differing only in what is wrong with the valve.
 
-We include the traded assets deliberately and claim nothing more from them
+The traded assets are included deliberately and nothing more is claimed from them
 than this. A market is not a machine and has no thermal network, but the atom
 vocabulary is defined on any set of jointly sampled channels, and the fact
 that market windows form a clean class under the same 81 numbers says the
@@ -482,7 +480,7 @@ realised map is no longer injective.
 
 \emph{Real drift, and a prediction of ours that failed.} The gas turbine gives
 five years of genuine asset ageing, sensor ageing and maintenance on one
-machine. We expected the atlas to move less than per-channel statistics under
+machine. The atlas was expected to move less than per-channel statistics under
 that drift. It does not: the centroid shift from 2011 to 2015 is $0.819$ for
 the atlas against $0.817$ for the marginals, the same number. What does differ
 is datability: a classifier recovers the year of a held-out segment at
@@ -542,7 +540,7 @@ recalibration column is the reason to carry both rather than only the second.
 \label{sec:fleet}
 
 Public fleet datasets cannot answer the question that matters, because nobody
-knows the true bearing friction of unit 47. We therefore simulate fleets of
+knows the true bearing friction of unit 47. Fleets of
 individual machines on three MuJoCo Menagerie arms \cite{todorov2012,guo2022},
 a UR5e, a Franka Panda and a KUKA iiwa14, each carrying an injected two-node
 joint thermal network with derating and a hysteretic drive trip. Each unit is
@@ -564,7 +562,7 @@ construction. The other six parameters---thermal resistances, winding
 resistance, bearing friction, servo gain---are \emph{relational}: they change
 how one channel couples to another, which is precisely the content of the
 atoms. The controlled experiment below shows the wash is the sum of two clean
-and opposite effects. To separate the two axes causally, we simulate three
+and opposite effects. To separate the two axes causally, three
 fleets of 48 machines each on every platform---a UR5e, a Franka Panda and a
 KUKA iiwa14---identical in everything except which parameters carry the
 identity: a level-only fleet in which payload varies over its full range and
@@ -694,9 +692,9 @@ three fleets, $80\%$ of the variance sits in 43 to 45 directions out of
 \subsection{Does the identity help prediction?}
 
 Identification shows the atlas carries unit identity. It does not show the
-identity is useful, and on the test we ran it is not.
+identity is useful, and on the test run it is not.
 
-We pretrain a short-horizon forward model on a fleet, predicting joint velocity
+A short-horizon forward model is pretrained on a fleet, predicting joint velocity
 and winding temperature ten steps ahead from the current state and a causal
 EWMA history, hold out units never seen in pretraining, and adapt to each with
 $N$ samples of its own. Conditioning the model on the unit's atlas code is
@@ -715,7 +713,7 @@ does not beat conditioning on nothing, then the failure is not that the atlas
 recovers the identity badly: it is that the identity is redundant for this
 task, because a forward model that already sees the current state and a causal
 history of it is implicitly told what kind of machine it is on, and being told
-again in a separate input costs a few dimensions and buys nothing. We report
+again in a separate input costs a few dimensions and buys nothing. This is reported
 this as a negative result about short-horizon forward prediction specifically,
 not about every possible use of a unit code, but it is the use most often
 assumed and it did not survive contact.
@@ -729,7 +727,7 @@ practitioner who adds an atlas will get a modest improvement for a real
 increase in complexity. The moment instrumentation changes---and it does
 change, because sensors are replaced and drives are re-tuned and thermocouples
 are re-zeroed---everything built on magnitudes is invalidated at once while
-the atlas is untouched. That is a narrow claim and it is the one we can
+the atlas is untouched. That is a narrow claim and it is the one that can
 support.
 
 The second reading concerns what kind of quantity carries machine identity. It
@@ -793,7 +791,7 @@ size (0.0% top-1 against 4.2% chance on all three fleet types), which
 suggests the atlas's simplicity is an advantage on small fleets where learned
 representations lack the data to generalise. A higher-capacity forecaster on
 a larger fleet would almost certainly beat the atlas on clean-data
-identification, but the prediction we state is that it would collapse
+identification, but the prediction stated is that it would collapse
 equally under re-instrumentation, because the cause of the collapse is the
 information the model is built from, not its weakness.
 
@@ -812,16 +810,31 @@ and transfer rather than in accuracy. Knowing which machine a record came from,
 knowing that the answer does not change when the sensors are replaced, and
 knowing that the answer is not secretly the duty cycle, are worth having on
 their own. The workload control is the cleanest evidence for that last point,
-and it is the experiment we would most encourage others to copy, because a
+and it is the experiment most encouraged for others to copy, because a
 fingerprint that quietly encodes the task will pass every identification
 benchmark and fail in the field.
+
+Recalibration is the single most common maintenance event on industrial
+sensor networks. Every model trained on the old sensors' absolute readings is
+invalidated at once, and rebuilding it requires the very labelled data that
+recalibration makes scarce. A representation that survives sensor replacement
+eliminates that rebuild cost, which is substantial in sectors where sensor
+networks span hundreds of nodes and replacement is frequent. The invariance is
+exact rather than approximate, so no retraining schedule is needed.
+
+The construction is agnostic to domain, requiring only jointly sampled time
+series from a physical system. The controlled fleet experiment provides a
+practical decision rule: measure the intrinsic dimension of telemetry relative
+to the channel count; if the ratio is below roughly $0.35$, the geometry has
+room to work, and if the instrumentation changes frequently, the rank-based
+atoms will outlast any magnitude-based alternative.
 
 \section{Methods}
 
 \subsection{Atoms}
 
 A unit presents $d$ channels sampled over time. For each unordered pair
-$(i,j)$ we compute nine scalars. Write $u_k$ for the within-unit rank transform
+$(i,j)$ nine scalars are computed. Write $u_k$ for the within-unit rank transform
 of channel $k$, mapped to $(0,1)$ with ties averaged.
 
 \begin{enumerate}
@@ -983,12 +996,12 @@ input and a $256$--$48$ head is trained on the same windows to predict unit
 identity and evaluated top-1 on the held-out half. Both are trained on raw
 magnitudes; neither sees the atoms or the identity parameters.
 
-\section*{Extended data}
+\section*{Extended Data}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.8\textwidth]{../atlas/figED1_parity.pdf}
-\caption{Extended Data Fig.~1. The even/odd decomposition under time
+\caption{Extended Data Figure 1. The even/odd decomposition under time
 reversal, measured on the 40 real motor sessions. \textbf{a} Maximum
 $|\mathrm{atom}(\mathcal{R}x) - \mathrm{atom}(x)|$ per atom on a log scale:
 eight atoms are even to between $10^{-15}$ and $10^{-11}$, and the signed
@@ -998,31 +1011,6 @@ $|\levy|$ over pairs: the odd atom is not a numerical curiosity, it carries
 real mass on real telemetry.}
 \label{fig:ed1}
 \end{figure}
-
-\section*{Broader impacts}
-
-Recalibration is the single most common maintenance event on industrial
-sensor networks: a temperature probe is replaced, a flow meter is re-zeroed,
-a vibration accelerometer is swapped for a different model. Every model trained
-on the old sensors' absolute readings is invalidated at once, and rebuilding
-it requires the very labelled data that recalibration makes scarce. A
-representation that survives sensor replacement eliminates that rebuild cost,
-which is substantial in sectors---energy, water, manufacturing---where sensor
-networks span hundreds of nodes and replacement is frequent. The invariance
-is exact rather than approximate, so no retraining schedule is needed: the
-atlas computed on old sensors and the atlas computed on new sensors are
-numerically identical.
-
-The construction is agnostic to domain: it requires only jointly sampled
-time series from a physical system. The same code that processes motor
-telemetry processes wind farm SCADA, hydraulic fault data, and (as a stress
-test) financial time series. This generality means the method is available to
-practitioners in any domain where multi-sensor monitoring exists, without
-domain-specific feature engineering. The controlled fleet experiment provides
-a practical decision rule: measure the intrinsic dimension of your telemetry
-relative to the channel count; if the ratio is below roughly $0.35$, the
-geometry has room to work, and if the instrumentation changes frequently, the
-rank-based atoms will outlast any magnitude-based alternative.
 
 \section*{Data availability}The PMSM bench\cite{pmsm_data}, the gas turbine\cite{muniryadi2022}, the
 hydraulic rig\cite{helwig2022}, the MetroPT3 compressor\cite{cardoso2020},
