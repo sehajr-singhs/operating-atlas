@@ -1,0 +1,106 @@
+{
+  "config": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "machines": 8,
+    "episodes": 6,
+    "steps": 800
+  },
+  "rows": [
+    {
+      "seed": 0,
+      "representation": "raw_moments",
+      "recalibrated": false,
+      "balanced_accuracy": 0.9791666666666667
+    },
+    {
+      "seed": 0,
+      "representation": "rank_moments",
+      "recalibrated": false,
+      "balanced_accuracy": 0.125
+    },
+    {
+      "seed": 0,
+      "representation": "relational",
+      "recalibrated": false,
+      "balanced_accuracy": 0.8958333333333334
+    },
+    {
+      "seed": 1,
+      "representation": "raw_moments",
+      "recalibrated": true,
+      "balanced_accuracy": 0.25
+    },
+    {
+      "seed": 1,
+      "representation": "rank_moments",
+      "recalibrated": true,
+      "balanced_accuracy": 0.125
+    },
+    {
+      "seed": 1,
+      "representation": "relational",
+      "recalibrated": true,
+      "balanced_accuracy": 0.8958333333333334
+    },
+    {
+      "seed": 2,
+      "representation": "raw_moments",
+      "recalibrated": false,
+      "balanced_accuracy": 0.9791666666666667
+    },
+    {
+      "seed": 2,
+      "representation": "rank_moments",
+      "recalibrated": false,
+      "balanced_accuracy": 0.125
+    },
+    {
+      "seed": 2,
+      "representation": "relational",
+      "recalibrated": false,
+      "balanced_accuracy": 0.8958333333333334
+    },
+    {
+      "seed": 3,
+      "representation": "raw_moments",
+      "recalibrated": true,
+      "balanced_accuracy": 0.25
+    },
+    {
+      "seed": 3,
+      "representation": "rank_moments",
+      "recalibrated": true,
+      "balanced_accuracy": 0.125
+    },
+    {
+      "seed": 3,
+      "representation": "relational",
+      "recalibrated": true,
+      "balanced_accuracy": 0.8958333333333334
+    },
+    {
+      "seed": 4,
+      "representation": "raw_moments",
+      "recalibrated": false,
+      "balanced_accuracy": 0.9791666666666667
+    },
+    {
+      "seed": 4,
+      "representation": "rank_moments",
+      "recalibrated": false,
+      "balanced_accuracy": 0.125
+    },
+    {
+      "seed": 4,
+      "representation": "relational",
+      "recalibrated": false,
+      "balanced_accuracy": 0.8958333333333334
+    }
+  ]
+}

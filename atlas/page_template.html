@@ -1,0 +1,478 @@
+<title>Operating Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#F6F5F2; --panel:#FFFFFF; --ink:#14171B; --ink-2:#454B54;
+  --muted:#6C737D; --rule:#DFDDD7; --rule-2:#ECEAE5;
+  --accent:#C4551F; --accent-soft:#F3E4DA;
+  --blue:#0F6493; --blue-soft:#DDEAF2;
+  --green:#0A7A5E; --green-soft:#DCEFE8;
+  --shadow:0 1px 2px rgba(20,23,27,.05),0 8px 24px rgba(20,23,27,.05);
+}
+:root:not([data-theme="light"]){
+  @media (prefers-color-scheme: dark){
+    --ground:#0E1114; --panel:#161A1F; --ink:#E9EBEE; --ink-2:#B4BAC2;
+    --muted:#848C96; --rule:#272D34; --rule-2:#1E242A;
+    --accent:#E8794A; --accent-soft:#33211A;
+    --blue:#5AABD6; --blue-soft:#152630;
+    --green:#48BE9C; --green-soft:#122A24;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1114; --panel:#161A1F; --ink:#E9EBEE; --ink-2:#B4BAC2;
+  --muted:#848C96; --rule:#272D34; --rule-2:#1E242A;
+  --accent:#E8794A; --accent-soft:#33211A;
+  --blue:#5AABD6; --blue-soft:#152630;
+  --green:#48BE9C; --green-soft:#122A24;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:78rem; margin:0 auto; padding:0 1.5rem}
+.col{max-width:41rem}
+
+/* masthead ---------------------------------------------------------- */
+header{border-bottom:1px solid var(--rule); padding:3.5rem 0 2rem}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.72rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
+  margin:0 0 1.1rem;
+}
+h1{
+  font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;
+  font-weight:700; font-size:clamp(2.1rem,5.2vw,3.4rem); line-height:1.06;
+  letter-spacing:-.015em; margin:0 0 1rem; text-wrap:balance; max-width:22ch;
+}
+.standfirst{font-size:1.09rem; color:var(--ink-2); max-width:52ch; margin:0}
+
+.vitals{
+  display:grid; gap:1px; background:var(--rule);
+  grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
+  border:1px solid var(--rule); margin:2.4rem 0 0;
+}
+.vital{background:var(--ground); padding:.85rem 1rem}
+.vital dt{
+  font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 .3rem;
+}
+.vital dd{
+  margin:0; font-family:"IBM Plex Mono",monospace; font-weight:600;
+  font-size:1.15rem; font-variant-numeric:tabular-nums; color:var(--ink);
+}
+
+/* sections ---------------------------------------------------------- */
+main{padding:3rem 0 5rem}
+section{margin:0 0 3.6rem}
+h2{
+  font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;
+  font-weight:600; font-size:1.62rem; line-height:1.18; letter-spacing:-.01em;
+  margin:0 0 .5rem; text-wrap:balance;
+}
+h3{
+  font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;
+  font-weight:600; font-size:1.12rem; margin:2rem 0 .4rem;
+}
+p{margin:0 0 1rem}
+.lede{color:var(--ink-2)}
+strong{font-weight:600}
+code{
+  font-family:"IBM Plex Mono",monospace; font-size:.88em;
+  background:var(--rule-2); padding:.1em .35em; border-radius:3px;
+}
+
+/* verdict rows ------------------------------------------------------ */
+.finding{
+  border-top:1px solid var(--rule); padding:1.4rem 0;
+  display:grid; grid-template-columns:7.5rem 1fr; gap:1.5rem; align-items:start;
+}
+.finding:last-child{border-bottom:1px solid var(--rule)}
+.chip{
+  font-family:"IBM Plex Mono",monospace; font-size:.7rem; font-weight:600;
+  letter-spacing:.09em; text-transform:uppercase; padding:.3rem .55rem;
+  border-radius:3px; display:inline-block; white-space:nowrap;
+}
+.chip.holds{background:var(--green-soft); color:var(--green)}
+.chip.modest{background:var(--blue-soft); color:var(--blue)}
+.chip.fails{background:var(--accent-soft); color:var(--accent)}
+.chip.trade{background:var(--rule-2); color:var(--ink-2)}
+.finding h3{margin:0 0 .35rem; font-size:1.05rem}
+.finding p{margin:0; color:var(--ink-2); font-size:.95rem}
+
+/* table ------------------------------------------------------------- */
+.tablewrap{overflow-x:auto; margin:1.4rem 0 .6rem; border:1px solid var(--rule)}
+table{border-collapse:collapse; width:100%; min-width:34rem; background:var(--panel)}
+th,td{padding:.6rem .9rem; text-align:right; border-bottom:1px solid var(--rule-2)}
+th:first-child,td:first-child{text-align:left}
+thead th{
+  font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--muted); font-weight:400;
+  border-bottom:1px solid var(--rule);
+}
+tbody td{font-variant-numeric:tabular-nums; font-family:"IBM Plex Mono",monospace;
+  font-size:.9rem}
+tbody td:first-child{font-family:"IBM Plex Sans",sans-serif; font-size:.94rem}
+tbody tr:last-child td{border-bottom:none}
+tr.hi td{background:var(--accent-soft)}
+tr.dim td{color:var(--muted)}
+caption{
+  caption-side:bottom; text-align:left; padding:.7rem .9rem; font-size:.84rem;
+  color:var(--muted); background:var(--ground); border-top:1px solid var(--rule);
+}
+
+/* figures ----------------------------------------------------------- */
+figure{margin:2rem 0; max-width:70rem}
+figure img{
+  width:100%; height:auto; display:block; border:1px solid var(--rule);
+  background:#fff; border-radius:2px;
+}
+figcaption{
+  margin-top:.7rem; font-size:.87rem; color:var(--muted); max-width:56rem;
+}
+figcaption b{color:var(--ink-2); font-weight:600}
+
+/* callout ----------------------------------------------------------- */
+.note{
+  border-left:2px solid var(--accent); padding:.1rem 0 .1rem 1.1rem;
+  margin:1.6rem 0; color:var(--ink-2);
+}
+.note p:last-child{margin-bottom:0}
+
+footer{
+  border-top:1px solid var(--rule); padding:2rem 0 3rem; color:var(--muted);
+  font-size:.87rem;
+}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">Research note &middot; multi-physics telemetry</p>
+  <h1>The shapes a machine draws</h1>
+  <p class="standfirst">Every pair of a machine's channels traces a shape as it
+  runs. Nine scalar descriptors of those shapes separate kinds of machine,
+  diagnose real faults, and do not move at all when the instrumentation is
+  changed, which is exactly where the obvious alternative collapses.</p>
+
+  <dl class="vitals">
+    <div class="vital"><dt>Motor sessions</dt><dd>40</dd></div>
+    <div class="vital"><dt>System classes</dt><dd>__NCLASS__</dd></div>
+    <div class="vital"><dt>Simulated units</dt><dd>240</dd></div>
+    <div class="vital"><dt>Atoms per pair</dt><dd>9</dd></div>
+    <div class="vital"><dt>Identification</dt><dd>__ATLAS_T1__%</dd></div>
+    <div class="vital"><dt>Chance</dt><dd>__CHANCE__%</dd></div>
+  </dl>
+</header>
+
+<main>
+<section class="col">
+  <h2>The idea, made measurable</h2>
+  <p class="lede">A servo joint accelerating a payload dissipates ohmic heat into
+  a winding whose rising temperature derates the torque available to the next
+  command, on a thermal time constant three decades slower than the control loop
+  that issued it. Watch any one channel and you see a line wandering. Watch two
+  against each other and you see a shape, and the shape is where the coupling
+  lives, because a lag between torque and winding temperature is invisible in
+  either trace alone and shows up immediately as an oriented loop in the plane
+  they span.</p>
+
+  <p>Each channel pair gets nine <strong>atoms</strong>: monotone association,
+  functional strength, a nonlinearity gap, functional asymmetry, oriented
+  hysteresis, jump share, timescale ratio, support occupancy, and a scaling
+  exponent. The whole array over all pairs is one unit's
+  <strong>index of operations</strong>. Nine quantiles of each atom across pairs
+  gives a signature of fixed length whatever the channel count, which is the
+  <strong>index of operators</strong>, the object that lets a 12-channel motor
+  and a 24-channel turbofan be compared at all.</p>
+
+  <p>Eight of the nine are computed on within-unit ranks, so they are exactly
+  invariant to any strictly increasing recalibration of each channel separately.
+  That is the property a fleet needs when sensors get replaced.</p>
+</section>
+
+<figure>
+  <img src="__FIG1__" alt="Four panels: mechanical and thermal time series on
+  different time scales; four channel pairs plotted against each other showing a
+  single-valued curve, an oriented hysteresis loop, a non-monotone branch and a
+  discontinuous coupling, each with its nine atom values; and the full atlas as a
+  heat map of every pair by every atom.">
+  <figcaption><b>The same telemetry three ways.</b> The exemplar pairs are not
+  hand-picked: each is the arg-max of one atom on this session, so the panels
+  show what the method found. Torque against winding temperature encloses an
+  oriented loop at <code>levy = +0.47</code>, which is the thermal lag made
+  visible.</figcaption>
+</figure>
+
+<section class="col">
+  <h2>What held, and what did not</h2>
+</section>
+
+<section class="col">
+  <div class="finding">
+    <span class="chip modest">Scoped</span>
+    <div>
+      <h3>Operating episodes are identifiable, distinct machines only on one axis</h3>
+      <p>Matched from a different stretch of its own operating history, a motor
+      session is recovered from 39 distractors at __ATLAS_T1__% top-1 against
+      __CHANCE__% chance. The scope matters and an earlier draft of this page
+      got it wrong: the motor benchmark is <em>one</em> 52 kW machine recorded in
+      40 sessions, so this distinguishes operating episodes, not siblings. On
+      simulated fleets of genuinely distinct machines the answer is now
+      controlled rather than a single number: it depends on which axis carries
+      the identity, and the controlled experiment below resolves the earlier
+      wash.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip holds">Holds</span>
+    <div>
+      <h3>Sibling machines: the atlas is a fingerprint of coupling, not of load</h3>
+      <p>Machine identity has two axes. The <strong>level axis</strong> is
+      absolute magnitude &mdash; payload, how hot a machine simply runs. The
+      <strong>relational axis</strong> is how one channel couples to another
+      &mdash; bearing friction, thermal resistances, servo gain. Three fleets of
+      48 physically distinct MuJoCo robots each, identical except which axis
+      carries the identity, give a clean inversion on every one of three
+      platforms (UR5e, Panda, iiwa14). Carried by payload alone,
+      the atlas retrieves held-out siblings at __SL_ATLAS_LVL__% against
+      __SL_CHANCE__% chance (not significant), while magnitude
+      features are significant. Carried by the six relational parameters alone,
+      the roles invert: the atlas retrieves at __SL_ATLAS_SHP__% on the UR5e
+      and 20.8% on the Panda (p &lt; 0.001), and the per-channel calibration
+      block falls to chance. When both axes vary, the atlas reaches 39.6% on
+      the Panda &mdash; ahead of the per-channel marginals at 29.2%.</p>
+      <p>Under simulated re-instrumentation the atlas is numerically unmoved on
+      all nine platform&ndash;fleet combinations, to machine precision, while
+      every magnitude-based feature collapses. The deep baseline makes this
+      quantitative: an autoencoder trained on raw telemetry windows outreads
+      the atlas on clean data &mdash; __SL_AE_CLEAN__% against __SL_ATLAS_ALL__%
+      when both axes vary on the Panda &mdash; and falls to __SL_AE_WARP__%
+      (chance) after a single per-channel recalibration, losing ~96% of its
+      accuracy. The atlas is exactly where it was. A magnitude fingerprint,
+      learned or hand-built, wins only while the instrumentation never changes;
+      the moment a sensor is replaced, the level axis it was reading is
+      relabelled and the advantage inverts.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip holds">Holds</span>
+    <div>
+      <h3>Correlation is not what carries identity</h3>
+      <p>Reducing the atlas to its first atom, a Spearman correlation matrix,
+      drops identification to __RHO_T1__%. The atom doing the work is oriented
+      hysteresis at __LEVY_T1__%, and correlation cannot express it: correlation
+      is symmetric, the L&eacute;vy area is antisymmetric, so no correlation-based
+      descriptor encodes which of two coupled channels leads.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip holds">Holds</span>
+    <div>
+      <h3>Exactly one atom can see the arrow of time</h3>
+      <p>Reverse a record end to end and a lag becomes a lead. Any statistic
+      built from the joint distribution of simultaneous values is unchanged,
+      because reversal only permutes the samples: that covers correlation,
+      mutual information, distance correlation and coherence magnitude. Measured
+      on 40 real motor sessions, eight atoms reproduce themselves to between
+      10<sup>&minus;15</sup> and 10<sup>&minus;11</sup>, while oriented
+      hysteresis satisfies levy(reversed) = &minus;levy to 4.7&times;10<sup>&minus;14</sup>.
+      The vocabulary splits into an even sector and a one-dimensional odd
+      sector, the whole standard toolkit lives in the even sector, and lag with
+      a direction is precisely the odd sector's content.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip holds">Holds</span>
+    <div>
+      <h3>Invariance to recalibration is exact</h3>
+      <p>Under an independent monotone warp on every channel the atlas is
+      unmoved at __WARP_ATLAS__%, while per-channel marginal statistics fall from
+      __MARG_T1__% to __WARP_MARG__%.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip holds">Holds</span>
+    <div>
+      <h3>Classes separate across unlike systems</h3>
+      <p>__REAL7_ACC__% &plusmn; 0.8% over seven real industrial systems &mdash; a
+      five-year gas turbine log, a hydraulic rig, a motor bench, an air
+      compressor, an electricity transformer, a wind farm and a pump-rig anomaly
+      bench &mdash; against a 35.6% majority (309 records), where per-channel
+      marginals reach __REAL7_MARG__%. The wider stress test adds a turbofan and
+      traded assets: __CLASS_ACC__% &plusmn; __CLASS_SD__% over __NCLASS__
+      classes against a __CLASS_MAJ__% majority.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip holds">Holds</span>
+    <div>
+      <h3>The atlas encodes the machine, not the workload</h3>
+      <p>On simulated fleets of 80 machines whose true physics is known, per
+      channel statistics decode the episode's ambient temperature at
+      R&sup2; = 0.99, 0.95 and 0.72 and its duty cycle at 0.82, 0.89 and 0.84.
+      The atlas decodes ambient temperature at &minus;0.05, &minus;0.07 and
+      &minus;0.11, which is no better than predicting the mean. A fingerprint
+      that quietly encodes the task will pass every identification benchmark and
+      fail in the field, and this is the control that catches it.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip holds">Holds</span>
+    <div>
+      <h3>Unit variation is low-dimensional</h3>
+      <p>Within a class, 80% of the variance across units sits in 43 to 45
+      directions out of 12,555 to 17,010. That is the quantitative form of the
+      claim that a class prototype fine-tunes to one machine by moving a small
+      number of knobs.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip modest">Modest</span>
+    <div>
+      <h3>The in-distribution gain over a simple baseline is small</h3>
+      <p>Per-channel means, standard deviations, skews and kurtoses reach
+      __MARG_T1__% against the atlas at __ATLAS_T1__%. On a stable,
+      co-calibrated fleet the extra machinery buys little. The separation appears
+      only when instrumentation changes.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip fails">Fails</span>
+    <div>
+      <h3>Short records defeat it</h3>
+      <p>Atoms need roughly 10<sup>3</sup> to 10<sup>4</sup> samples per unit
+      before they stop being noise. On C-MAPSS, whose units are about 200 cycles,
+      identification reaches 1.1% against 0.14% chance and the atlas scores below
+      a plain correlation matrix at class assignment.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip fails">Fails</span>
+    <div>
+      <h3>Knowing the machine did not help predict the machine</h3>
+      <p>Pretraining a forward model on a fleet and adapting to an unseen unit,
+      conditioning on the unit's atlas gave 0.168 test error against 0.129 for
+      no conditioning at all. The diagnostic is the oracle arm: handed the
+      machine's <em>true</em> payload, thermal resistances and bearing friction,
+      it reached 0.160, also worse than nothing. So the identity is not
+      recovered badly, it is redundant, because a model that already sees a
+      causal history of the state has been told what machine it is on. Anyone
+      conditioning a predictor on a learned machine embedding should run the
+      oracle arm first.</p>
+    </div>
+  </div>
+  <div class="finding">
+    <span class="chip trade">Trade-off</span>
+    <div>
+      <h3>Invariance costs identifiability</h3>
+      <p>A machine that simply runs ten kelvin hotter is identified by that fact,
+      and an invariant is blind to it by construction. Cells cut on absolute load
+      give the best single atom in the whole study (42.5%) and lose three
+      quarters of it under re-instrumentation; cells cut in rank space give the
+      best full atlas and hold. Neither dominates.</p>
+    </div>
+  </div>
+</section>
+
+<section class="col">
+  <h2>Identification, in numbers</h2>
+  <p class="lede">Atlases are built from the first half of each session and
+  matched against atlases from the second half, so the target must be recognised
+  from telemetry it did not produce.</p>
+</section>
+
+<section class="col">
+  <div class="tablewrap">
+  <table>
+    <caption>40 real motor sessions. The final column applies an independent
+    strictly increasing warp to every channel of the held-out half.</caption>
+    <thead><tr><th>Feature set</th><th>Top-1</th><th>Pct. rank</th>
+      <th>After recalibration</th></tr></thead>
+    <tbody>
+      <tr class="hi"><td>Atlas, invariant 8 atoms</td><td>__ATLAS_T1__%</td>
+        <td>90.0%</td><td>__WARP_ATLAS__%</td></tr>
+      <tr><td>Full atlas, 9 atoms</td><td>__ATLAS9_T1__%</td><td>89.2%</td>
+        <td>&mdash;</td></tr>
+      <tr><td>Per-channel marginals</td><td>__MARG_T1__%</td><td>82.6%</td>
+        <td>__WARP_MARG__%</td></tr>
+      <tr><td>Correlation matrix only</td><td>__RHO_T1__%</td><td>71.4%</td>
+        <td>&mdash;</td></tr>
+      <tr class="dim"><td>Chance</td><td>__CHANCE__%</td><td>50.0%</td>
+        <td>__CHANCE__%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note">
+    <p>Including the one scale-dependent atom actively hurts: the invariant
+    eight reach __ATLAS_T1__% where all nine reach __ATLAS9_T1__%. The scaling
+    exponent is kept for reading physics off a shape, not for identification.</p>
+  </div>
+</section>
+
+<figure>
+  <img src="__FIG2__" alt="Four panels: atlas reproducibility rising with samples
+  per unit; identification by feature set; identification by single atom; and
+  identification before and after recalibration for the atlas and for marginal
+  statistics.">
+  <figcaption><b>What the atlas buys, needs, and costs.</b> The dashed line in
+  the first panel is an interleaved split, which holds operating conditions fixed
+  and so isolates estimation noise alone. The gap below it is genuine
+  non-stationarity, which means more data stops helping past roughly
+  10<sup>4</sup> samples and what remains is the machine actually
+  changing.</figcaption>
+</figure>
+
+<figure>
+  <img src="__FIG3__" alt="Four panels: class prototypes as atom-quantile
+  profiles; the profiles in two principal components showing separated clusters;
+  a leave-one-atom-out ablation; and a confusion matrix whose only errors are
+  between two fault conditions of the same pump rig.">
+  <figcaption><b>The index of operators.</b> Every record is strided to a common
+  length first, because two atoms are sensitive to how the data was acquired
+  rather than to what the machine did. Dropping both entirely leaves accuracy at
+  __CLASS_NOTF__%, so the class signal is not a logging-rate artefact. Every
+  error falls between the two fault states of the same pump rig, which is the one
+  pair sharing hardware, instrumentation and logging rate.</figcaption>
+</figure>
+
+<section class="col">
+  <h2>What this is for</h2>
+  <p>The useful reading is a statement about where relational geometry earns its
+  cost. On a fleet that is stable and co-calibrated, per-channel statistics
+  already carry most of what identifies a machine. The moment instrumentation
+  changes, and it does change, because sensors are replaced and drives are
+  re-tuned and thermocouples are re-zeroed, everything built on magnitudes is
+  invalidated at once while the atlas is untouched.</p>
+  <p>The second reading concerns what kind of quantity carries machine identity.
+  Symmetric descriptors of a pair, which is what nearly the whole relational
+  feature literature uses, cannot express which of two coupled channels leads. In
+  a system whose defining behaviour is a lag with a direction, that is the
+  information worth having, and it is free once the pair is being looked at
+  anyway.</p>
+  <p>The third reading is negative and deserves equal weight. A unit code that
+  demonstrably carries unit identity did not improve short-horizon forward
+  prediction, and neither did the true physical parameters. That leaves a
+  representation whose value is in identification, auditing and transfer rather
+  than in accuracy. Knowing which machine a record came from, knowing the answer
+  survives a sensor swap, and knowing the answer is not secretly the duty cycle,
+  are worth having on their own.</p>
+</section>
+
+</main>
+
+<footer>
+  <p>Data: a permanent-magnet motor test bench, NASA C-MAPSS, the MetroPT air
+  compressor, the SKAB pump testbed, and MuJoCo Menagerie arms with an injected
+  two-node joint thermal network. All atom code is released.</p>
+</footer>
+</div>

@@ -1,0 +1,78 @@
+{
+  "cmapss": {
+    "dataset": "cmapss",
+    "n_seeds": {},
+    "arms": {
+      "mono": {
+        "test_mean": 299.27861328125,
+        "test_sd": 12.747795037575298,
+        "val_mean": 360.2377624511719,
+        "n": 5,
+        "params": 64285,
+        "gate_entropy": null,
+        "rel_vs_raw": "+0.5%",
+        "p_vs_raw": "0.846"
+      },
+      "raw": {
+        "test_mean": 297.92298380533856,
+        "test_sd": 3.702278443977547,
+        "val_mean": 359.8704579671224,
+        "n": 6,
+        "params": 64460,
+        "gate_entropy": 0.8929397712151209,
+        "rel_vs_raw": "",
+        "p_vs_raw": ""
+      },
+      "invariant": {
+        "test_mean": 296.01027221679686,
+        "test_sd": 2.770803720426098,
+        "val_mean": 361.16181030273435,
+        "n": 5,
+        "params": 63500,
+        "gate_entropy": 0.29629675298929214,
+        "rel_vs_raw": "-0.6%",
+        "p_vs_raw": "0.195"
+      },
+      "raw+inv": {
+        "test_mean": 295.1904602050781,
+        "test_sd": 5.310022232501183,
+        "val_mean": 359.4287536621094,
+        "n": 5,
+        "params": 64588,
+        "gate_entropy": 0.7727269500494003,
+        "rel_vs_raw": "-0.9%",
+        "p_vs_raw": "0.269"
+      },
+      "naive": {
+        "test_mean": 290.4720153808594,
+        "test_sd": 1.270300185180811,
+        "val_mean": 361.09263305664064,
+        "n": 5,
+        "params": 63500,
+        "gate_entropy": 0.8208130180835724,
+        "rel_vs_raw": "-2.5%",
+        "p_vs_raw": "0.022"
+      },
+      "activity": {
+        "test_mean": 301.7230712890625,
+        "test_sd": 5.737060109042735,
+        "val_mean": 361.0072326660156,
+        "n": 5,
+        "params": 63500,
+        "gate_entropy": 0.5422629952430725,
+        "rel_vs_raw": "+1.3%",
+        "p_vs_raw": "0.166"
+      },
+      "random": {
+        "test_mean": 299.19337158203126,
+        "test_sd": 2.873409739555213,
+        "val_mean": 363.12462158203124,
+        "n": 5,
+        "params": 63500,
+        "gate_entropy": 0.8374156713485718,
+        "rel_vs_raw": "+0.4%",
+        "p_vs_raw": "0.591"
+      }
+    }
+  }
+}

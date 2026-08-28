@@ -1,0 +1,16 @@
+seed,representation,recalibrated,balanced_accuracy
+0,raw_moments,0,0.97916667
+0,rank_moments,0,0.12500000
+0,relational,0,0.89583333
+1,raw_moments,1,0.25000000
+1,rank_moments,1,0.12500000
+1,relational,1,0.89583333
+2,raw_moments,0,0.97916667
+2,rank_moments,0,0.12500000
+2,relational,0,0.89583333
+3,raw_moments,1,0.25000000
+3,rank_moments,1,0.12500000
+3,relational,1,0.89583333
+4,raw_moments,0,0.97916667
+4,rank_moments,0,0.12500000
+4,relational,0,0.89583333

@@ -1,0 +1,134 @@
+[
+  {
+    "system": "cnc_mill",
+    "drive": "closed-loop, repeated programme",
+    "channels": 41,
+    "live": 35,
+    "twonn": 7.22,
+    "mle": 5.71,
+    "ratio": 0.21,
+    "verdict": "BODY",
+    "n_records": 4
+  },
+  {
+    "system": "elevator",
+    "drive": "closed-loop, repeated programme",
+    "channels": 9,
+    "live": 9,
+    "twonn": 1.94,
+    "mle": 1.13,
+    "ratio": 0.22,
+    "verdict": "BODY",
+    "n_records": 5
+  },
+  {
+    "system": "metro_compressor",
+    "drive": "closed-loop, free duty",
+    "channels": 13,
+    "live": 10,
+    "twonn": 2.28,
+    "mle": 2.05,
+    "ratio": 0.23,
+    "verdict": "BODY",
+    "n_records": 5
+  },
+  {
+    "system": "hydraulic_rig",
+    "drive": "closed-loop, repeated programme",
+    "channels": 14,
+    "live": 14,
+    "twonn": 3.55,
+    "mle": 4.76,
+    "ratio": 0.25,
+    "verdict": "BODY",
+    "n_records": 6
+  },
+  {
+    "system": "transformer",
+    "drive": "closed-loop, free duty",
+    "channels": 14,
+    "live": 14,
+    "twonn": 5.36,
+    "mle": 5.38,
+    "ratio": 0.38,
+    "verdict": "thin",
+    "n_records": 3
+  },
+  {
+    "system": "gas_turbine",
+    "drive": "closed-loop, free duty",
+    "channels": 11,
+    "live": 11,
+    "twonn": 4.26,
+    "mle": 4.79,
+    "ratio": 0.39,
+    "verdict": "thin",
+    "n_records": 5
+  },
+  {
+    "system": "steel_plant",
+    "drive": "closed-loop, free duty",
+    "channels": 7,
+    "live": 7,
+    "twonn": 2.73,
+    "mle": 2.55,
+    "ratio": 0.39,
+    "verdict": "thin",
+    "n_records": 4
+  },
+  {
+    "system": "cmapss_turbofan",
+    "drive": "simulated, free duty",
+    "channels": 24,
+    "live": 24,
+    "twonn": 9.45,
+    "mle": 7.35,
+    "ratio": 0.39,
+    "verdict": "thin",
+    "n_records": 4
+  },
+  {
+    "system": "pmsm_bench",
+    "drive": "open-loop, rich excitation",
+    "channels": 12,
+    "live": 12,
+    "twonn": 5.72,
+    "mle": 5.13,
+    "ratio": 0.48,
+    "verdict": "thin",
+    "n_records": 6
+  },
+  {
+    "system": "battery_cycling",
+    "drive": "closed-loop, repeated programme",
+    "channels": 10,
+    "live": 7,
+    "twonn": 3.81,
+    "mle": 2.75,
+    "ratio": 0.54,
+    "verdict": "thin",
+    "n_records": 6
+  },
+  {
+    "system": "wind_farm",
+    "drive": "closed-loop, free duty",
+    "channels": 4,
+    "live": 4,
+    "twonn": 2.63,
+    "mle": 2.32,
+    "ratio": 0.66,
+    "verdict": "CLOUD",
+    "n_records": 5
+  },
+  {
+    "system": "pump_rig",
+    "drive": "open-loop, rich excitation",
+    "channels": 8,
+    "live": 6,
+    "twonn": 4.35,
+    "mle": 3.94,
+    "ratio": 0.72,
+    "verdict": "CLOUD",
+    "n_records": 6
+  }
+]

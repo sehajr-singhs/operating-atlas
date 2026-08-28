@@ -1,0 +1,30 @@
+{
+  "config": {
+    "seeds": [
+      0
+    ],
+    "machines": 4,
+    "episodes": 2,
+    "steps": 300
+  },
+  "rows": [
+    {
+      "seed": 0,
+      "representation": "raw_moments",
+      "recalibrated": false,
+      "balanced_accuracy": 1.0
+    },
+    {
+      "seed": 0,
+      "representation": "rank_moments",
+      "recalibrated": false,
+      "balanced_accuracy": 0.25
+    },
+    {
+      "seed": 0,
+      "representation": "relational",
+      "recalibrated": false,
+      "balanced_accuracy": 1.0
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "dataset": "pmsm",
+    "k": 3,
+    "n": 88524,
+    "excess_kurtosis": 215.50678196262007,
+    "frac_beyond_5sigma": 0.004951576220384679,
+    "gaussian_frac_5sigma": 5.73e-07,
+    "tail_excess_ratio": 8641.494276413054,
+    "ks_radial": 0.7404731889130151,
+    "sd": 0.8706109625559371
+  },
+  {
+    "dataset": "cmapss",
+    "k": 3,
+    "n": 40966,
+    "excess_kurtosis": -1.0596799856180563,
+    "frac_beyond_5sigma": 0.0,
+    "gaussian_frac_5sigma": 5.73e-07,
+    "tail_excess_ratio": 0.0,
+    "ks_radial": 0.170160604946568,
+    "sd": 0.9971639392263301
+  }
+]

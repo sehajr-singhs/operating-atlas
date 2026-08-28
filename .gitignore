@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Data (large files)
+data/*.npz
+data/*.pt
+data/*.csv
+data/*.zip
+
+# Cache
+*.log
+*.npz
+!atlas/class_profiles.npz
+!atlas/profiles_real.npz
+!atlas/_pmsm_sessions.npz
+!atlas/_pmsm_cache.npz
+!atlas/_exemplar.npz
+
+# LaTeX intermediate
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.synctex.gz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
