@@ -45,17 +45,15 @@ descriptor, the signed L\'evy area, is the unique atom odd under time
 reversal, establishing a parity decomposition: eight even atoms capture
 symmetric dependence, one odd atom captures causal lag inaccessible to
 correlation or mutual information. On seven real industrial systems (309
-records), the atlas identifies the source at $99.4\%$ versus $96.1\%$ for
-marginals, and under simulated re-instrumentation holds at $99.0\%$ while
-marginals collapse to $80.3\%$. In controlled fleets of 48 machines on
+records), the atlas identifies the source at 99.4% versus 96.1% for
+marginals, and under simulated re-instrumentation holds at 99.0% while
+marginals collapse to 80.3%. In controlled fleets of 48 machines on
 three platforms, an autoencoder outperforms the atlas on clean data but
 collapses to chance under re-instrumentation, while the atlas is unchanged.
-The method requires $\sim10^3$ samples per window and provides a
+The method requires approximately 1,000 samples per window and provides a
 deployment rule: relational atoms for coupling-shifting faults, per-channel
 statistics for level-shifting faults.
 \end{abstract}
-
-\section{Introduction}
 
 Think of every logged variable of a machine as an axis. A servo joint
 accelerating a payload dissipates ohmic heat into a winding whose rising
@@ -907,6 +905,170 @@ to the channel count; if the ratio is below roughly $0.35$, the geometry has
 room to work, and if the instrumentation changes frequently, the rank-based
 atoms will outlast any magnitude-based alternative.
 
+\begin{thebibliography}{99}
+
+\bibitem{lyons1998} Lyons, T. J. On the level of a rough path.
+\emph{C. R. Acad. Sci. Paris} \textbf{326}, 1005--1008 (1998).
+
+\bibitem{lyons2007} Lyons, T. J., Caruana, M. \& L\'evy, T.
+\emph{Differential Equations Driven by Rough Paths.} Springer, 2007.
+
+\bibitem{chevyrev2016} Chevyrev, I. \& Kormilitzin, A. A primer on the
+signature method in machine learning. Preprint at
+arXiv:1603.03788 (2016).
+
+\bibitem{edelsbrunner2008} Edelsbrunner, H. \& Harer, J.
+\emph{Computational Topology: An Introduction.} AMS, 2008.
+
+\bibitem{carlsson2009} Carlsson, G. Topology and data.
+\emph{Bull. Am. Math. Soc.} \textbf{46}, 255--308 (2009).
+
+\bibitem{zomorodian2005} Zomorodian, A. \& Carlsson, G. Computing persistent
+homology. \emph{Discrete Comput. Geom.} \textbf{33}, 249--274 (2005).
+
+\bibitem{webber1994} Webber, C. L. \& Zbilut, J. P. Dynamical assessment of
+physiological systems and states using recurrence plot strategies.
+\emph{J. Appl. Physiol.} \textbf{76}, 965--973 (1994).
+
+\bibitem{marwan2007} Marwan, N., Romano, M. C., Thiel, M. \& Kurths, J.
+Recurrence plots for the analysis of complex systems.
+\emph{Phys. Rep.} \textbf{438}, 237--329 (2007).
+
+\bibitem{li2022graph} Li, T., Zhou, Z., Li, S. \& Sun, C. Graph neural
+networks for machinery health monitoring: a survey.
+\emph{IEEE Trans. Ind. Inform.} \textbf{18}, 7407--7422 (2022).
+
+\bibitem{zhao2023} Zhao, R. \& Yan, R. Deep learning and its applications to
+machine health monitoring: a survey. \emph{IEEE Access} \textbf{7}, 1--1
+(2019).
+
+\bibitem{finn2015} Finn, E. S. et al. Functional connectome fingerprinting:
+identifying individuals using patterns of brain connectivity.
+\emph{Nat. Neurosci.} \textbf{18}, 1664--1671 (2015).
+
+\bibitem{spearman1904} Spearman, C. The proof and measurement of association
+between two things. \emph{Am. J. Psychol.} \textbf{15}, 72--101 (1904).
+
+\bibitem{pearson1905ratio} Pearson, K. Mathematical contributions to the
+theory of evolution. XIV. On the general theory of skew correlation and
+nonlinear regression. \emph{Drapers' Company Research Memoirs} (1905).
+
+\bibitem{levy1951} L\'evy, P. \emph{Probl\`emes Concrets d'Analyse
+Fonctionnelle.} Gauthier-Villars, 1951.
+
+\bibitem{cox1958} Cox, D. R. The regression analysis of binary sequences.
+\emph{J. R. Stat. Soc. B} \textbf{20}, 215--232 (1958).
+
+\bibitem{todorov2012} Todorov, E., Erez, T. \& Tassa, Y. MuJoCo: a physics
+engine for model-based control. In \emph{IROS} 5026--5033 (2012).
+
+\bibitem{guo2022} Guo, C. et al. MuJoCo Menagerie: a curated collection of
+robot models. Preprint at arXiv:2210.10868 (2022).
+
+\bibitem{takens1981} Takens, F. Detecting strange attractors in turbulence.
+In \emph{Dynamical Systems and Turbulence}, Lect. Notes Math. \textbf{898},
+366--381 (1981).
+
+\bibitem{abarbanel1996} Abarbanel, H. D. I.
+\emph{Analysis of Observed Chaotic Data.} Springer, 1996.
+
+\bibitem{levina2004} Levina, E. \& Bickel, P. Maximum likelihood estimation of
+intrinsic dimension. In \emph{Adv. Neural Inf. Process. Syst.} \textbf{17},
+777--784 (2004).
+
+\bibitem{facco2017} Facco, E., d'Errico, M., Rodriguez, A. \& Laio, A.
+Estimating the intrinsic dimension of datasets by a minimal neighborhood
+information. \emph{Sci. Rep.} \textbf{7}, 12140 (2017).
+
+\bibitem{coifman2006} Coifman, R. R. \& Lafon, S. Diffusion maps.
+\emph{Appl. Comput. Harmon. Anal.} \textbf{21}, 5--30 (2006).
+
+\bibitem{roweis2000} Roweis, S. T. \& Saul, L. K. Nonlinear dimensionality
+reduction by locally linear embedding. \emph{Science} \textbf{290},
+2323--2326 (2000).
+
+\bibitem{tenenbaum2000} Tenenbaum, J. B., de Silva, V. \& Langford, J. C.
+A global geometric framework for nonlinear dimensionality reduction.
+\emph{Science} \textbf{290}, 2319--2323 (2000).
+
+\bibitem{beg2005} Beg, M. F., Miller, M. I., Trouv\'e, A. \& Younes, L.
+Computing large deformation metric mappings via geodesic flows of
+diffeomorphisms. \emph{Int. J. Comput. Vis.} \textbf{61}, 139--157 (2005).
+
+\bibitem{younes2010} Younes, L. \emph{Shapes and Diffeomorphisms.}
+Springer, 2010.
+
+\bibitem{grenander1993} Grenander, U. \& Miller, M. I. Representations of
+knowledge in complex systems. \emph{J. R. Stat. Soc. B} \textbf{56},
+549--603 (1994).
+
+\bibitem{saxena2008} Saxena, A., Goebel, K., Simon, D. \& Eklund, N.
+Damage propagation modeling for aircraft engine run-to-failure simulation.
+In \emph{Int. Conf. Progn. Health Manag.} 1--9 (2008).
+
+\bibitem{helwig2022} Helwig, N. Condition monitoring of hydraulic systems.
+UCI Machine Learning Repository (2017).
+
+\bibitem{pmsm_data} Godoy, W. F. \& da Silva, S. A. PMSM motor bench dataset.
+Kaggle (2019).
+
+\bibitem{cardoso2020} Cardoso, R. V., Pinto, J. P., Neves, J. S. \& Vrancx,
+R. E. MetroPT3: a public dataset for predictive maintenance.
+\emph{Data Brief} \textbf{33}, 106426 (2020).
+
+\bibitem{zahedi2018} Zahedi, A. \& Gandoman, F. H. Wind farm SCADA dataset.
+Kaggle (2018).
+
+\bibitem{goecks2019} Goecks, J. CNC milling dataset. UCI Machine Learning
+Repository (2019).
+
+\bibitem{clopper1934} Clopper, C. J. \& Pearson, E. S. The use of confidence
+or fiducial limits illustrated in the case of the binomial.
+\emph{Biometrika} \textbf{26}, 404--413 (1934).
+
+\bibitem{jiao2022} Jiao, J., Zhao, M., Lin, J. \& Liang, K. A comprehensive
+review on convolutional neural network in machine fault diagnosis.
+\emph{Neurocomputing} \textbf{498}, 1--23 (2022).
+
+\bibitem{zhang2017} Zhang, W., Peng, G., Li, C., Chen, Y. \& Zhang, Z. A
+new deep learning model for fault diagnosis with good anti-noise and domain
+adaptation ability on raw vibration signals. \emph{Sensors} \textbf{17},
+425 (2017).
+
+\bibitem{zhou2021} Zhou, H., Zhang, S., Peng, J., Zhang, S., Li, J., Xiong,
+H. \& Zhang, W. Informer: Beyond efficient transformer for long sequence
+time-series forecasting. In \emph{AAAI} \textbf{35}, 11106--11115 (2021).
+
+\bibitem{ansuini2019} Ansuini, A., Laio, A., Macke, J. H. \& Zoccolan, D.
+Intrinsic dimension of data representations in deep neural networks. In
+\emph{Adv. Neural Inf. Process. Syst.} \textbf{32}, 6111--6122 (2019).
+
+\bibitem{goebel2008} Goebel, K., Saxena, A., Saha, S., Flowers, A. \&
+Crobaugh, J. Prognostics and health management: A review of data driven
+approaches. \emph{Int. J. Prognostics Health Manag.} \textbf{9}, 1--24
+(2008).
+
+\bibitem{lee2014} Lee, J., Wu, F., Zhao, W., Ghaffari, M., Liao, L. \&
+Siegel, D. Prognostics and health management design for rotary machinery
+systems---reviews, methodology and applications. \emph{Mech. Syst. Signal
+Process.} \textbf{42}, 314--334 (2014).
+
+\bibitem{li2020contrastive} Li, X., Ding, Q. \& Sun, J.-Q. Remaining useful
+life estimation in prognostics using deep convolution neural networks.
+\emph{Reliab. Eng. Syst. Saf.} \textbf{172}, 1--11 (2018).
+
+\bibitem{ragab2022} Ragab, M., El-Kholany, A., Othman, M. \& Dimitrijevic,
+B. Sensor drift compensation in cyber--physical systems: a survey.
+\emph{IEEE Sensors J.} \textbf{22}, 4122--4136 (2022).
+
+\bibitem{muniryadi2022} Muniryadi, M. Gas turbine CO and NOx emission data.
+Kaggle (2022).
+
+\bibitem{skab2020} Katser, I., Kozitsin, V., Ivolga, M. \& others. Skoltech
+Anomaly Benchmark (SKAB). GitHub (2020).
+
+\end{thebibliography}
+
 \section{Methods}
 
 \subsection{Atoms}
@@ -1123,168 +1285,4 @@ The author declares no competing interests.
 S.R.S. conceived the study, designed the atoms and invariance proofs, wrote the
 code, ran all experiments (Kaggle kernels + local), and wrote the paper.
 
-\begin{thebibliography}{99}
-
-\bibitem{lyons1998} Lyons, T. J. On the level of a rough path.
-\emph{C. R. Acad. Sci. Paris} \textbf{326}, 1005--1008 (1998).
-
-\bibitem{lyons2007} Lyons, T. J., Caruana, M. \& L\'evy, T.
-\emph{Differential Equations Driven by Rough Paths.} Springer, 2007.
-
-\bibitem{chevyrev2016} Chevyrev, I. \& Kormilitzin, A. A primer on the
-signature method in machine learning. Preprint at
-arXiv:1603.03788 (2016).
-
-\bibitem{edelsbrunner2008} Edelsbrunner, H. \& Harer, J.
-\emph{Computational Topology: An Introduction.} AMS, 2008.
-
-\bibitem{carlsson2009} Carlsson, G. Topology and data.
-\emph{Bull. Am. Math. Soc.} \textbf{46}, 255--308 (2009).
-
-\bibitem{zomorodian2005} Zomorodian, A. \& Carlsson, G. Computing persistent
-homology. \emph{Discrete Comput. Geom.} \textbf{33}, 249--274 (2005).
-
-\bibitem{webber1994} Webber, C. L. \& Zbilut, J. P. Dynamical assessment of
-physiological systems and states using recurrence plot strategies.
-\emph{J. Appl. Physiol.} \textbf{76}, 965--973 (1994).
-
-\bibitem{marwan2007} Marwan, N., Romano, M. C., Thiel, M. \& Kurths, J.
-Recurrence plots for the analysis of complex systems.
-\emph{Phys. Rep.} \textbf{438}, 237--329 (2007).
-
-\bibitem{li2022graph} Li, T., Zhou, Z., Li, S. \& Sun, C. Graph neural
-networks for machinery health monitoring: a survey.
-\emph{IEEE Trans. Ind. Inform.} \textbf{18}, 7407--7422 (2022).
-
-\bibitem{zhao2023} Zhao, R. \& Yan, R. Deep learning and its applications to
-machine health monitoring: a survey. \emph{IEEE Access} \textbf{7}, 1--1
-(2019).
-
-\bibitem{finn2015} Finn, E. S. et al. Functional connectome fingerprinting:
-identifying individuals using patterns of brain connectivity.
-\emph{Nat. Neurosci.} \textbf{18}, 1664--1671 (2015).
-
-\bibitem{spearman1904} Spearman, C. The proof and measurement of association
-between two things. \emph{Am. J. Psychol.} \textbf{15}, 72--101 (1904).
-
-\bibitem{pearson1905ratio} Pearson, K. Mathematical contributions to the
-theory of evolution. XIV. On the general theory of skew correlation and
-nonlinear regression. \emph{Drapers' Company Research Memoirs} (1905).
-
-\bibitem{levy1951} L\'evy, P. \emph{Probl\`emes Concrets d'Analyse
-Fonctionnelle.} Gauthier-Villars, 1951.
-
-\bibitem{cox1958} Cox, D. R. The regression analysis of binary sequences.
-\emph{J. R. Stat. Soc. B} \textbf{20}, 215--232 (1958).
-
-\bibitem{todorov2012} Todorov, E., Erez, T. \& Tassa, Y. MuJoCo: a physics
-engine for model-based control. In \emph{IROS} 5026--5033 (2012).
-
-\bibitem{guo2022} Guo, C. et al. MuJoCo Menagerie: a curated collection of
-robot models. Preprint at arXiv:2210.10868 (2022).
-
-\bibitem{takens1981} Takens, F. Detecting strange attractors in turbulence.
-In \emph{Dynamical Systems and Turbulence}, Lect. Notes Math. \textbf{898},
-366--381 (1981).
-
-\bibitem{abarbanel1996} Abarbanel, H. D. I.
-\emph{Analysis of Observed Chaotic Data.} Springer, 1996.
-
-\bibitem{levina2004} Levina, E. \& Bickel, P. Maximum likelihood estimation of
-intrinsic dimension. In \emph{Adv. Neural Inf. Process. Syst.} \textbf{17},
-777--784 (2004).
-
-\bibitem{facco2017} Facco, E., d'Errico, M., Rodriguez, A. \& Laio, A.
-Estimating the intrinsic dimension of datasets by a minimal neighborhood
-information. \emph{Sci. Rep.} \textbf{7}, 12140 (2017).
-
-\bibitem{coifman2006} Coifman, R. R. \& Lafon, S. Diffusion maps.
-\emph{Appl. Comput. Harmon. Anal.} \textbf{21}, 5--30 (2006).
-
-\bibitem{roweis2000} Roweis, S. T. \& Saul, L. K. Nonlinear dimensionality
-reduction by locally linear embedding. \emph{Science} \textbf{290},
-2323--2326 (2000).
-
-\bibitem{tenenbaum2000} Tenenbaum, J. B., de Silva, V. \& Langford, J. C.
-A global geometric framework for nonlinear dimensionality reduction.
-\emph{Science} \textbf{290}, 2319--2323 (2000).
-
-\bibitem{beg2005} Beg, M. F., Miller, M. I., Trouv\'e, A. \& Younes, L.
-Computing large deformation metric mappings via geodesic flows of
-diffeomorphisms. \emph{Int. J. Comput. Vis.} \textbf{61}, 139--157 (2005).
-
-\bibitem{younes2010} Younes, L. \emph{Shapes and Diffeomorphisms.}
-Springer, 2010.
-
-\bibitem{grenander1993} Grenander, U. \& Miller, M. I. Representations of
-knowledge in complex systems. \emph{J. R. Stat. Soc. B} \textbf{56},
-549--603 (1994).
-
-\bibitem{saxena2008} Saxena, A., Goebel, K., Simon, D. \& Eklund, N.
-Damage propagation modeling for aircraft engine run-to-failure simulation.
-In \emph{Int. Conf. Progn. Health Manag.} 1--9 (2008).
-
-\bibitem{helwig2022} Helwig, N. Condition monitoring of hydraulic systems.
-UCI Machine Learning Repository (2017).
-
-\bibitem{pmsm_data} Godoy, W. F. \& da Silva, S. A. PMSM motor bench dataset.
-Kaggle (2019).
-
-\bibitem{cardoso2020} Cardoso, R. V., Pinto, J. P., Neves, J. S. \& Vrancx,
-R. E. MetroPT3: a public dataset for predictive maintenance.
-\emph{Data Brief} \textbf{33}, 106426 (2020).
-
-\bibitem{zahedi2018} Zahedi, A. \& Gandoman, F. H. Wind farm SCADA dataset.
-Kaggle (2018).
-
-\bibitem{goecks2019} Goecks, J. CNC milling dataset. UCI Machine Learning
-Repository (2019).
-
-\bibitem{clopper1934} Clopper, C. J. \& Pearson, E. S. The use of confidence
-or fiducial limits illustrated in the case of the binomial.
-\emph{Biometrika} \textbf{26}, 404--413 (1934).
-
-\bibitem{jiao2022} Jiao, J., Zhao, M., Lin, J. \& Liang, K. A comprehensive
-review on convolutional neural network in machine fault diagnosis.
-\emph{Neurocomputing} \textbf{498}, 1--23 (2022).
-
-\bibitem{zhang2017} Zhang, W., Peng, G., Li, C., Chen, Y. \& Zhang, Z. A
-new deep learning model for fault diagnosis with good anti-noise and domain
-adaptation ability on raw vibration signals. \emph{Sensors} \textbf{17},
-425 (2017).
-
-\bibitem{zhou2021} Zhou, H., Zhang, S., Peng, J., Zhang, S., Li, J., Xiong,
-H. \& Zhang, W. Informer: Beyond efficient transformer for long sequence
-time-series forecasting. In \emph{AAAI} \textbf{35}, 11106--11115 (2021).
-
-\bibitem{ansuini2019} Ansuini, A., Laio, A., Macke, J. H. \& Zoccolan, D.
-Intrinsic dimension of data representations in deep neural networks. In
-\emph{Adv. Neural Inf. Process. Syst.} \textbf{32}, 6111--6122 (2019).
-
-\bibitem{goebel2008} Goebel, K., Saxena, A., Saha, S., Flowers, A. \&
-Crobaugh, J. Prognostics and health management: A review of data driven
-approaches. \emph{Int. J. Prognostics Health Manag.} \textbf{9}, 1--24
-(2008).
-
-\bibitem{lee2014} Lee, J., Wu, F., Zhao, W., Ghaffari, M., Liao, L. \&
-Siegel, D. Prognostics and health management design for rotary machinery
-systems---reviews, methodology and applications. \emph{Mech. Syst. Signal
-Process.} \textbf{42}, 314--334 (2014).
-
-\bibitem{li2020contrastive} Li, X., Ding, Q. \& Sun, J.-Q. Remaining useful
-life estimation in prognostics using deep convolution neural networks.
-\emph{Reliab. Eng. Syst. Saf.} \textbf{172}, 1--11 (2018).
-
-\bibitem{ragab2022} Ragab, M., El-Kholany, A., Othman, M. \& Dimitrijevic,
-B. Sensor drift compensation in cyber--physical systems: a survey.
-\emph{IEEE Sensors J.} \textbf{22}, 4122--4136 (2022).
-
-\bibitem{muniryadi2022} Muniryadi, M. Gas turbine CO and NOx emission data.
-Kaggle (2022).
-
-\bibitem{skab2020} Katser, I., Kozitsin, V., Ivolga, M. \& others. Skoltech
-Anomaly Benchmark (SKAB). GitHub (2020).
-
-\end{thebibliography}
-
-\end{document}
+\end{document}\end{document}
