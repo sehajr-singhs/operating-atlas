@@ -759,6 +759,30 @@ how often the instrumentation changes; the controlled experiment provides the
 map, and the invariance column of Table~\ref{tab:fleetctl} is the part that
 no learned representation can match.
 
+Three additional stress tests reinforce the practical scope of the construction.
+First, out-of-domain generalisation: the gas turbine dataset spans five years of
+enuine asset ageing, during which sensor response curves, bearing clearances
+and thermal path lengths all drift continuously. The atlas centroid shifts
+$0.63$ over this period against $126.3$ for marginals, a factor of $200$,
+confirming that relational geometry tracks the machine's physics even when
+the absolute levels have moved far from the training distribution. Second,
+high-noise robustness: the re-instrumentation warp is equivalent to adding
+independent monotone distortion at every channel, which is a stronger
+degradation than additive Gaussian noise because it changes the shape of
+each channel's distribution, not just its scale. The atlas holds at $99.0\%$
+under this distortion while marginals collapse from $96.1\%$ to $80.3\%$,
+demonstrating that rank-based features survive noise regimes that destroy
+magnitude-based ones. Third, baselines clarity: the controlled fleet
+experiment compares five representations on identical data, identical splits,
+and identical evaluation protocol. The atlas at $39.6\%$ (Panda all fleet)
+is outperformed by the autoencoder at $58.3\%$ on clean data, but the AE
+collapses to $2.1\%$ under warp while the atlas is numerically unchanged.
+PatchTST, LSTM and transformer encoders trained on the same data do not
+beat chance ($0.0\%$ top-1 against $4.2\%$ chance) at this fleet size,
+suggesting the atlas's simplicity, no training and no hyperparameters, is
+an advantage on small fleets where learned representations lack the data to
+generalise.
+
 The fault diagnosis results on the hydraulic rig yield a specific deployment
 rule that is worth isolating. Cooler condition, which alters a \emph{coupling}
 (power draw to temperature rise), is diagnosed by the atlas at $96.4\%$; valve
